@@ -4,7 +4,7 @@
 /*                                HSO3.hpp header file                                      */
 /*                                                                                          */
 /* This file is not currently part of the Boost library. It is simply an example of the use */
-/* quaternions can be put to. Hopefully it will be useful too.                              */
+/* quaternions can be put to. Hopefully it will be usefull too.                             */
 /*                                                                                          */
 /* This file provides tools to convert between quaternions and R^3 rotation matrices.       */
 /*                                                                                          */
@@ -96,6 +96,8 @@ R3_matrix<TYPE_FLOAT>    quaternion_to_R3_rotation(::boost::math::quaternion<TYP
 }
 
 
+namespace
+{
     template<typename TYPE_FLOAT>
     void    find_invariant_vector(  R3_matrix<TYPE_FLOAT> const & rot,
                                     TYPE_FLOAT & x,
@@ -388,7 +390,7 @@ R3_matrix<TYPE_FLOAT>    quaternion_to_R3_rotation(::boost::math::quaternion<TYP
         s = -x*w+z*u;
         t = +x*v-y*u;
     }
-
+}
 
 
 template<typename TYPE_FLOAT>
