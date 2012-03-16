@@ -1,5 +1,5 @@
-// Copyright (c) 2006 Johan Rade
-// Copyright (c) 2011 Paul A. Bristow To incorporate into Boost.Math
+
+// Copyright 2011 Paul A. Bristow 
 
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt
@@ -8,18 +8,21 @@
 // test_nonfinite_trap.cpp
 
 #ifdef _MSC_VER
-#   pragma warning(disable : 4702)
+#  pragma warning(disable : 4702) // Unreachable code.
+#  pragma warning(disable : 4127) // Expression is constant.
+
 #endif
 
 #define BOOST_TEST_MAIN
 
 #include <boost/test/auto_unit_test.hpp>
-#include "almost_equal.ipp" // Similar to BOOST_CLOSE_FRACTION.
-#include "s_.ipp" // To create test strings like std::basic_string<CharType> s = S_("0 -0"); 
+#include <libs/math/test/almost_equal.ipp> // Similar to BOOST_CLOSE_FRACTION.
+#include <libs/math/test/s_.ipp> // To create test strings like std::basic_string<CharType> s = S_("0 -0"); 
 #include <boost/math/special_functions/nonfinite_num_facets.hpp>
 
 #include <locale>
 #include <sstream>
+#include <iomanip>
 
 namespace {
 
@@ -73,7 +76,7 @@ template<class CharType, class ValType> void trap_test_finite_impl()
     ValType a2 = (ValType)-3.5;
     ValType a3 = (std::numeric_limits<ValType>::max)();
     ValType a4 = -(std::numeric_limits<ValType>::max)();
-    ss << a1 << ' ' << a2 << ' ' << a3 << ' ' << a4;
+    ss << a1 << ' ' << a2 << ' ' << a3 << ' ' << a4; // 1.2, -3.5, max, -max
 
     ValType b1, b2, b3, b4;
     ss >> b1 >> b2 >> b3 >> b4;
@@ -235,5 +238,99 @@ template<class CharType, class ValType> void trap_test_get_nan_impl()
 
 //------------------------------------------------------------------------------
 
+
+#define CHECKOUT(manips, expected)\
+  {\
+  std::locale old_locale;\
+  std::locale tmp_locale(old_locale, new nonfinite_num_put<char>(0)); /* default flags. */\
+  std::locale new_locale(tmp_locale, new nonfinite_num_get<char>);\
+  std::ostringstream ss;\
+  ss.imbue(new_locale);\
+  ss << manips;\
+  std::basic_string<char> s = S_(expected);\
+  BOOST_CHECK_EQUAL(ss.str(), s);\
+  }\
+
+ BOOST_AUTO_TEST_CASE(check_trap_nan)
+  { // Check that with trap_nan set, it really does throw exception.
+  std::locale old_locale;
+  std::locale tmp_locale(old_locale, new nonfinite_num_put<char>(trap_nan));
+  std::locale new_locale(tmp_locale, new nonfinite_num_get<char>);
+  std::ostringstream os;
+  os.imbue(new_locale);
+  os.exceptions(std::ios_base::badbit | std::ios_base::failbit); // Enable throwing exceptions.
+  double nan =  std::numeric_limits<double>::quiet_NaN();
+  BOOST_CHECK_THROW((os << nan), std::runtime_error);
+  // warning : in "check_trap_nan": exception std::runtime_error is expected
+ } //  BOOST_AUTO_TEST_CASE(check_trap_nan)
+
+ BOOST_AUTO_TEST_CASE(check_trap_inf)
+  { // Check that with trap_nan set, it really does throw exception.
+  std::locale old_locale;
+  std::locale tmp_locale(old_locale, new nonfinite_num_put<char>(trap_infinity));
+  std::locale new_locale(tmp_locale, new nonfinite_num_get<char>);
+  std::ostringstream os;
+  os.imbue(new_locale);
+  os.exceptions(std::ios_base::badbit | std::ios_base::failbit); // Enable throwing exceptions.
+  double inf =  std::numeric_limits<double>::infinity();
+  BOOST_CHECK_THROW((os << inf), std::runtime_error);
+  // warning : in "check_trap_inf": exception std::runtime_error is expected.
+ 
+ } //  BOOST_AUTO_TEST_CASE(check_trap_nan_inf)
+
+ BOOST_AUTO_TEST_CASE(output_tests)
+  {
+    // Positive zero.
+    CHECKOUT(0, "0"); // integer zero.
+    CHECKOUT(0., "0"); // double zero.
+
+    double nan =  std::numeric_limits<double>::quiet_NaN();
+    double inf =  std::numeric_limits<double>::infinity();
+
+    CHECKOUT(inf, "inf"); // infinity.
+    CHECKOUT(-inf, "-inf"); // infinity.
+    CHECKOUT(std::showpos << inf, "+inf"); // infinity.
+
+    CHECKOUT(std::setw(6) << std::showpos << inf, "  +inf"); // infinity.
+    CHECKOUT(std::right << std::setw(6) << std::showpos << inf, "  +inf"); // infinity.
+    CHECKOUT(std::left << std::setw(6) << std::showpos << inf, "+inf  "); // infinity.
+    CHECKOUT(std::left << std::setw(6) << std::setprecision(6) << inf, "inf   "); // infinity.
+    CHECKOUT(std::left << std::setw(6) << std::setfill('*') << std::setprecision(6) << inf, "inf***"); // infinity.
+    CHECKOUT(std::right << std::setw(6) << std::setfill('*') << std::setprecision(6) << inf, "***inf"); // infinity.
+    CHECKOUT(std::internal<< std::setw(6) << std::showpos << inf, "+  inf"); // infinity.
+    CHECKOUT(std::internal<< std::setw(6) << std::setfill('*') << std::showpos << inf, "+**inf"); // infinity.
+    CHECKOUT(std::internal<< std::setw(6) << std::setfill('*') << std::showpos << -inf, "-**inf"); // infinity.
+
+    CHECKOUT(nan, "nan"); // nan
+    CHECKOUT(std::setw(1) << nan, "nan"); // nan, even if width was too small.
+    CHECKOUT(std::setprecision(10) << nan, "nan"); // setprecision has no effect.
+ }  //  BOOST_AUTO_TEST_CASE(output_tests)
+ 
 }   // anonymous namespace
+
+/*
+
+Output:
+
+test_nonfinite_io.cpp
+  test_nonfinite_io.vcxproj -> J:\Cpp\MathToolkit\test\Math_test\Debug\test_nonfinite_io.exe
+  Running 4 test cases...
+  Platform: Win32
+  Compiler: Microsoft Visual C++ version 10.0
+  STL     : Dinkumware standard library version 520
+  Boost   : 1.49.0
+  Entering test suite "Master Test Suite"
+  Entering test case "trap_test"
+  Leaving test case "trap_test"; testing time: 7ms
+  Entering test case "check_trap_nan"
+  Leaving test case "check_trap_nan"
+  Entering test case "check_trap_inf"
+  Leaving test case "check_trap_inf"; testing time: 1ms
+  Entering test case "output_tests"
+  Leaving test case "output_tests"; testing time: 3ms
+  Leaving test suite "Master Test Suite"
+  
+  *** No errors detected
+
+*/
 
