@@ -4,7 +4,7 @@ The majority of the implementation notes are included with the documentation
 of each function or distribution.  The notes here are of a more general nature,
 and reflect more the general implementation philosophy used.
 
-[h4 Implemention philosophy]
+[section:philosophy Implemention philosophy]
 
 "First be right, then be fast."
 
@@ -15,7 +15,10 @@ particularly for certain limited ranges of arguments,
 but for most applications of math functions and distributions,
 we judge that speed is rarely as important as accuracy.
 
-So our priority is accuracy.
+So [*our priority is accuracy].
+
+[tip Boost.Random library has some faster (but perhaps less accurate)
+implementations that may be more suitable for use with Monte-Carlo methods.]
 
 To permit evaluation of accuracy of the special functions,
 production of extremely accurate tables of test values
@@ -23,7 +26,7 @@ has received considerable effort.
 
 (It also required much CPU effort -
 there was some danger of molten plastic dripping from the bottom of JM's laptop,
-so instead, PAB's Dual-core desktop was kept 50% busy for *days*
+so instead, PAB's Dual-core desktop was kept 50% busy for [*days]
 calculating some tables of test values!)
 
 For a specific RealType, say float or double,
@@ -47,15 +50,18 @@ Biometrika 34(2), 352 - 358 (Dec 1947).
 
 These could still provide sufficient accuracy for some speed-critical applications.
 
-[h4 Accuracy and Representation of Test Values]
+[endsect] [/section:philosophy Implemention philosophy]
+
+
+[section:test_values Accuracy and Representation of Test Values]
 
 In order to be accurate enough for as many as possible real types,
 constant values are given to 50 decimal digits if available
 (though many sources proved only accurate near to 64-bit double precision).
-Values are specified as long double types by appending L,
+Values are specified as `long double` types by appending L,
 unless they are exactly representable, for example integers, or binary fractions like 0.125.
-This avoids the risk of loss of accuracy converting from double, the default type.
-Values are used after static_cast<RealType>(1.2345L)
+This avoids the risk of loss of accuracy converting from `double`, the default type.
+Values are used after `static_cast<RealType>(1.2345L)`
 to provide the appropriate RealType for spot tests.
 
 Functions that return constants values, like kurtosis for example, are written as
@@ -66,14 +72,14 @@ to provide the most accurate value
 that the compiler can compute for the real type.
 (The denominator is an integer and so will be promoted exactly).
 
-So tests for one third, *not* exactly representable with radix two floating-point,
+So tests for one third, [*not] exactly representable with radix two floating-point,
 (should) use, for example:
 
 `static_cast<RealType>(1) / 3;`
 
 If a function is very sensitive to changes in input,
 specifying an inexact value as input (such as 0.1) can throw
-the result off by a noticeable amount: 0.1f is "wrong"
+the result off by a noticeable amount: 'float' 0.1f is "wrong"
 by ~1e-7 for example (because 0.1 has no exact binary representation).
 That is why exact binary values - halves, quarters, and eighths etc -
 are used in test code along with the occasional fraction `a/b` with `b`
@@ -87,27 +93,29 @@ The tolerances need to be set to the maximum of:
 * Some epsilon value.
 * The accuracy of the data (often only near 64-bit double).
 
-Otherwise when long double has more digits than the test data, then no
+Otherwise when `long double` has more digits than the test data, then no
 amount of tweaking an epsilon based tolerance will work.
 
 A common problem is when tolerances that are suitable for implementations
-like Microsoft VS.NET where double and long double are the same size:
-tests fail on other systems where long double is more accurate than double.
+like Microsoft VS.NET where `double` and `long double` are the same size:
+tests fail on otherplatforms where `long double` is more accurate than `double`.
 Check first that the suffix L is present, and then that the tolerance is big enough.
 
-[h4 Handling Unsuitable Arguments]
+[endsect] [/section:test_values Accuracy and Representation of Test Values]
+
+[section:bad_arg Handling Unsuitable Arguments]
 
 In
-[@http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2004/n1665.pdf Errors in Mathematical Special Functions], J. Marraffino & M. Paterno
-it is proposed that signalling a domain error is mandatory
+[@http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2004/n1665.pdf Errors in Mathematical Special Functions],
+J. Marraffino & M. Paterno
+propose that signalling a domain error is mandatory
 when the argument would give an mathematically undefined result.
 
 *Guideline 1
 
 [:A mathematical function is said to be defined at a point a = (a1, a2, . . .)
 if the limits as x = (x1, x2, . . .) 'approaches a from all directions agree'.
-The defined value may be any number, or +infinity, or -infinity.]
-
+The defined value may be any number, or +infinity, or -infinity.] [br]
 Put crudely, if the function goes to + infinity
 and then emerges 'round-the-back' with - infinity,
 it is NOT defined.
@@ -136,13 +144,13 @@ for a detailed explanation of the mechanism, and
 and
 [@../../example/error_handling_example.cpp error_handling_example.cpp]
 
-[caution If you enable throw but do NOT have try & catch block,
+[caution If you enable throw but do NOT have a `'try&catch'` block,
 then the program will terminate with an uncaught exception and probably abort.
-Therefore to get the benefit of helpful error messages, enabling *all* exceptions
-*and* using try&catch is recommended for all applications.
-However, for simplicity, this is not done for most examples.]
+Therefore to get the benefit of helpful error messages, enabling [*all] exceptions
+[*and] using `'try&catch'` is recommended for all applications.
+However, to avoid cluttering the code, this is not shown for most examples.]
 
-[h4 Handling of Functions that are Not Mathematically defined]
+[h4 Handling of Functions that are Not Mathematically Defined]
 
 Functions that are not mathematically defined,
 like the Cauchy mean, fail to compile by default.
@@ -157,36 +165,39 @@ to not throw, and to return NaN instead.  For example,
 
 appears before the first Boost include,
 then if the un-implemented function is called,
-mean(cauchy<>()) will return std::numeric_limits<T>::quiet_NaN().
+`mean(cauchy<>())` will return `std::numeric_limits<T>::quiet_NaN()`.
 
 [warning If `std::numeric_limits<T>::has_quiet_NaN` is false
 (for example, if T is a User-defined type without NaN support),
 then an exception will always be thrown when a domain error occurs.
 Catching exceptions is therefore strongly recommended.]
 
-[h4 Median of distributions]
+[endsect] [/section:bad_arg Handling Unsuitable Arguments]
+
+
+[section:medians Median of distributions]
 
 There are many distributions for which we have been unable to find an analytic formula,
-and this has deterred us from implementing
+and this had deterred us from implementing
 [@http://en.wikipedia.org/wiki/Median median functions], the mid-point in a list of values.
 
 However a useful numerical approximation for distribution `dist`
-is available as usual as an accessor non-member function median using `median(dist)`,
-that may be evaluated (in the absence of an analytic formula) by calling
+is available as an accessor non-member function median using `median(dist)`;
+that approximation may be evaluated (in the absence of an analytic formula) by calling
 
-`quantile(dist, 0.5)` (this is the /mathematical/ definition of course).
+`quantile(dist, 0.5)` (this is the ['mathematical] definition of course).
 
-[@http://www.amstat.org/publications/jse/v13n2/vonhippel.html Mean, Median, and Skew, Paul T von Hippel]
+See also:
 
-[@http://documents.wolfram.co.jp/teachersedition/MathematicaBook/24.5.html Descriptive Statistics,]
+* [@http://www.amstat.org/publications/jse/v13n2/vonhippel.html Mean, Median, and Skew, Paul T von Hippel]
+* [@http://documents.wolfram.co.jp/teachersedition/MathematicaBook/24.5.html Descriptive Statistics,]
+* [@http://documents.wolfram.co.jp/v5/Add-onsLinks/StandardPackages/Statistics/DescriptiveStatistics.html and ]
+* [@http://documents.wolfram.com/v5/TheMathematicaBook/AdvancedMathematicsInMathematica/NumericalOperationsOnData/3.8.1.html
+Mathematica Basic Statistics] gives more detail, in particular for discrete distributions.
 
-[@http://documents.wolfram.co.jp/v5/Add-onsLinks/StandardPackages/Statistics/DescriptiveStatistics.html and ]
+[endsect] [/section:medians Median of distributions]
 
-[@http://documents.wolfram.com/v5/TheMathematicaBook/AdvancedMathematicsInMathematica/NumericalOperationsOnData/3.8.1.html
-Mathematica Basic Statistics.] give more detail, in particular for discrete distributions.
-
-
-[h4 Handling of Floating-Point Infinity]
+[section:infinity Handling of Floating-Point Infinity]
 
 Some functions and distributions are well defined with + or - infinity as
 argument(s), but after some experiments with handling infinite arguments
@@ -231,7 +242,9 @@ We have also tried to catch boundary cases where the mathematical specification
 would result in divide by zero or overflow and signalling these similarly.
 What happens at (and near), poles can be controlled through __error_policy.
 
-[h4 Scale, Shape and Location]
+[endsect] [/section:infinity Handling of Floating-Point Infinity]
+
+[section:scale_shape_location Scale, Shape and Location]
 
 We considered adding location and scale to the list of functions, for example:
 
@@ -253,21 +266,27 @@ but found that these concepts are not defined (or their definition too contentio
 for too many distributions to be generally applicable.
 Because they are non-member functions, they can be added if required.
 
-[h4 Notes on Implementation of Specific Functions & Distributions]
+[endsect] [/section:scale_shape_location Scale, Shape and Location]
 
-* Default parameters for the Triangular Distribution.
+
+[section:functions_distributions Notes on Implementation of Specific Functions & Distributions]
+
+* Default Parameters for the Triangular Distribution.[br]
 We are uncertain about the best default parameters.
 Some sources suggest that the Standard Triangular Distribution has
-lower = 0, mode = half and upper = 1.
+`lower = 0, mode = half and upper = 1`.
 However as a approximation for the normal distribution,
-the most common usage, lower = -1, mode = 0 and upper = 1 would be more suitable.
+the most common usage, `lower = -1, mode = 0 and upper = 1` would be more suitable.
 
-[h4 Rational Approximations Used]
+[endsect] [/section:functions_distributions Notes on Implementation of Specific Functions & Distributions]
+
+
+[section:rational_approx Rational Approximations Used]
 
 Some of the special functions in this library are implemented via
 rational approximations.  These are either taken from the literature,
 or devised by John Maddock using
-[link math_toolkit.internals2.minimax our Remez code].
+[link math_toolkit.internals2.minimax his Remez code].
 
 Rational rather than Polynomial approximations are used to ensure
 accuracy: polynomial approximations are often wonderful up to
@@ -276,7 +295,8 @@ accuracy no matter how many more terms are added.
 
 Our own approximations were devised either for added accuracy
 (to support 128-bit long doubles for example), or because
-literature methods were unavailable or under non-BSL
+literature methods were unavailable
+or under non-[@http://opensource.org/licenses/BSL-1.0 Boost Software License]
 compatible license.  Our Remez code is known to produce good
 agreement with literature results in fairly simple "toy" cases.
 All approximations were checked
@@ -301,18 +321,21 @@ of error autocorrection.", Grigori Litvinov, eprint arXiv:math/0101042].
 Therefore the coefficients still need to be accurately calculated, even if they can
 be in error compared to the "true" minimax solution.
 
-[h4 Representation of Mathematical Constants]
+[endsect] [/section:rational_approx Rational Approximations Used]
+
+
+[section:representation_constants Representation of Mathematical Constants]
 
 A macro BOOST_DEFINE_MATH_CONSTANT in constants.hpp is used
 to provide high accuracy constants to mathematical functions and distributions,
 since it is important to provide values uniformly for both built-in
-float, double and long double types,
+`float, double` and `long double` types,
 and for User Defined types in __multiprecision like __cpp_dec_float.
-and others like NTL::quad_float and NTL::RR.
+and others like `NTL::quad_float` and `NTL::RR`.
 
 To permit calculations in this Math ToolKit and its tests, (and elsewhere)
 at about 100 decimal digits with NTL::RR type,
-it is obviously necessary to define constants to this accuracy.
+it is obviously necessary to define constants to at least this accuracy.
 
 However, some compilers do not accept decimal digits strings as long as this.
 So the constant is split into two parts, with the 1st containing at least
@@ -321,9 +344,9 @@ The 3rd part permits an exponent to be provided if necessary (use zero if none) 
 the other two parameters may only contain decimal digits (and sign and decimal point),
 and may NOT include an exponent like 1.234E99 (nor a trailing F or L).
 The second digit string is only used if T is a User-Defined Type,
-when the constant is converted to a long string literal and lexical_casted to type T.
+when the constant is converted to a long string literal and `lexical_casted` to `type T`.
 (This is necessary because you can't use a numeric constant
-since even a long double might not have enough digits).
+since even a `long double` might not have enough digits).
 
 For example, pi is defined:
 
@@ -343,16 +366,19 @@ And used thus:
 
 Note that it is necessary (if inconvenient) to specify the type explicitly.
 
-So you cannot write
+So you [*cannot] write
 
-  double p = boost::math::constants::pi<>();  // could not deduce template argument for 'T'
+  double p = boost::math::constants::pi<>();  // Could not deduce template argument for 'T'.
 
 Neither can you write:
 
-  double p = boost::math::constants::pi; // Context does not allow for disambiguation of overloaded function
-  double p = boost::math::constants::pi(); // Context does not allow for disambiguation of overloaded function
+  double p = boost::math::constants::pi; // Context does not allow for disambiguation of overloaded function.
+  double p = boost::math::constants::pi(); // Context does not allow for disambiguation of overloaded function.
 
-[h4 Thread safety]
+[endsect] [/section:representation_constants Representation of Mathematical Constants]
+
+
+[section:thread_safety Thread safety]
 
 Reporting of error by setting `errno` should be thread-safe already
 (otherwise none of the std lib math functions would be thread safe?).
@@ -368,7 +394,10 @@ the Boost.Math should also be thread-safe,
 (Thread safety has received attention in the C++11 Standard revision,
 so hopefully all compilers will do the right thing here at some point.)
 
-[h4 Sources of Test Data]
+[endsect] [/section:thread_safety Thread safety]
+
+
+[section:test_data_sources Sources of Test Data]
 
 We found a large number of sources of test data.
 We have assumed that these are /"known good"/
@@ -404,7 +433,10 @@ It is also the only independent source found for the Weibull distribution;
 unfortunately it appears to suffer from very poor accuracy in areas where
 the underlying special function is known to be difficult to implement.
 
-[h4 Testing for Invalid Parameters to Functions and Constructors]
+[endsect] [/section:test_data_sources Sources of Test Data]
+
+
+[section:bad_parameters Testing for Invalid Parameters to Functions and Constructors]
 
 After finding that some 'bad' parameters (like NaN) were not throwing
 a `domain_error` exception as they should, a function
@@ -412,14 +444,14 @@ a `domain_error` exception as they should, a function
 `check_out_of_range` (in `test_out_of_range.hpp`)
 was devised by JM to check
 (using Boost.Test's BOOST_CHECK_THROW macro)
-that bad parameters passed to constructors and functions throw `domain_error` exceptions.
+that bad parameters passed to constructors and functions throw `domain_error` exceptions when expected.
 
 Usage is `check_out_of_range< DistributionType >(list-of-params);`
-Where list-of-params is a list of *valid* parameters from which the distribution can be constructed
+Where list-of-params is a list of [*valid] parameters from which the distribution can be constructed
 - ie the same number of args are passed to the function,
 as are passed to the distribution constructor.
 
-The values of the parameters are not important, but must be *valid* to pass the contructor checks;
+The values of the parameters are not important, but must be [*valid] to pass the contructor checks;
 the default values are suitable, but must be explicitly provided, for example:
 
    check_out_of_range<extreme_value_distribution<RealType> >(1, 2);
@@ -446,12 +478,15 @@ by checking that `domain_error` exception is thrown if either are == 0.
 It was also noted that if more than one parameter is bad,
 then only the first detected will be reported by the error message.
 
-[h4 Creating and Managing the Equations]
+[endsect] [/section:bad_parameters Testing for Invalid Parameters to Functions and Constructors]
+
+
+[section:equations Creating and Managing the Equations]
 
 Equations that fit on a single line can most easily be produced by inline Quickbook code
 using templates for Unicode Greek and Unicode Math symbols.
-All Greek letter and small set of Math symbols is available at
-/boost-path/libs/math/doc/sf_and_dist/html4_symbols.qbk
+All Greek letter and small set of Math symbols is available at file
+[../html4_symbols.qbk].
 
 Where equations need to use more than one line, real Math editors were used.
 
@@ -624,7 +659,10 @@ template defined in math.qbk.  This outputs Docbook XML that looks like:
 MathML is not currently present in the Docbook output, or in the
 generated HTML: this needs further investigation.
 
-[h4 Producing Graphs]
+[endsect] [/section:equations Creating and Managing the Equations]
+
+
+[section:graphs Producing Graphs]
 
 Graphs were produced in SVG format and then converted to PNG's using the same
 process as the equations.
@@ -636,12 +674,14 @@ generate the SVG's directly using the
 [@http://code.google.com/soc/2007/boost/about.html Google Summer of Code 2007]
 project of Jacob Voytko (whose work so far,
 considerably enhanced and now reasonably mature and usable, by Paul A. Bristow,
-is at .\boost-sandbox\SOC\2007\visualization).
+is at [@https://github.com/pabristow/svg_plot  SVG_plot]).
+
+[endsect] [/section:graphs Producing Graphs]
 
 [endsect] [/section:sf_implementation Implementation Notes]
 
 [/
-  Copyright 2006, 2007, 2010 John Maddock and Paul A. Bristow.
+  Copyright 2006, 2007, 2014 John Maddock and Paul A. Bristow.
   Distributed under the Boost Software License, Version 1.0.
   (See accompanying file LICENSE_1_0.txt or copy at
   http://www.boost.org/LICENSE_1_0.txt).

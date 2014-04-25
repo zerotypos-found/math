@@ -3,8 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>About the Math Toolkit</title>
 <link rel="stylesheet" href="../math.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="../index.html" title="Math Toolkit 1.9.0">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<link rel="home" href="../index.html" title="Math Toolkit 1.9.1">
 <link rel="up" href="../overview.html" title="Chapter&#160;1.&#160;Overview">
 <link rel="prev" href="../overview.html" title="Chapter&#160;1.&#160;Overview">
 <link rel="next" href="navigation.html" title="Navigation">
@@ -75,8 +75,10 @@
     </p>
 <p>
       All the implementations are fully generic and support the use of arbitrary
-      "real-number" types, including <a href="http://www.boost.org/doc/libs/1_53_0_beta1/libs/multiprecision/doc/html/index.html" target="_top">Boost.Multiprecision</a>,
-      although they are optimised for use with types with known-about <a href="http://en.wikipedia.org/wiki/Significand" target="_top">significand
+      "real-number" types, including <a href="http://www.boost.org/doc/libs/1_53_0_beta1/libs/multiprecision/doc/html/index.html" target="_top">Boost.Multiprecision</a>
+      and 128-bit "quad" floating-point using <a class="link" href="overview.html" title="Overview">cstdfloat
+      specified-width typedefs</a>, although they are optimised for use with types
+      with known-about <a href="http://en.wikipedia.org/wiki/Significand" target="_top">significand
       (or mantissa)</a> sizes: typically <code class="computeroutput"><span class="keyword">float</span></code>,
       <code class="computeroutput"><span class="keyword">double</span></code> or <code class="computeroutput"><span class="keyword">long</span>
       <span class="keyword">double</span></code>.
@@ -87,7 +89,7 @@
       Toolkit</a>
     </h5>
 <p>
-      Provides <a class="link" href="../toolkit.html" title="Chapter&#160;12.&#160;Internals (Series, Rationals and Continued Fractions, Root Finding, Function Minimization, Testing and Development Tools)">many of the tools</a> required to implement
+      Provides <a class="link" href="../toolkit.html" title="Chapter&#160;12.&#160;Internals (Series, Rationals, Continued Fractions, Root Finding, Function Minimization, Testing &amp; Development Tools)">many of the tools</a> required to implement
       mathematical special functions: hopefully the presence of these will encourage
       other authors to contribute more special function implementations in the future.
       These tools are currently considered experimental: they are "exposed implementation

@@ -7,8 +7,8 @@ Boost.Math documentation is provided in both HTML and PDF formats.
 * [*Tutorials] are listed in the ['Table of Contents] and
 include many examples that should help you get started quickly.
 * [*Source code] of the many ['Examples] will often be your quickest starting point.
-* [*Index] (general) includes all entries. 
-* [*Specific Indexes] list only functions, class signatures, macros and typedefs. 
+* [*Index] (general) includes all entries.
+* [*Specific Indexes] list only functions, class signatures, macros and typedefs.
 
 [h5 Using the Indexes]
 
@@ -48,7 +48,7 @@ This documentation aims to use of the following naming and formatting convention
   that is, it is uppercase in code font and its name is followed by `()` to
   indicate that it is a function-like macro. Object-like macros appear without the
   trailing `()`.
-* Names that refer to ['concepts] in the generic programming sense 
+* Names that refer to ['concepts] in the generic programming sense
 (like template parameter names) are specified in CamelCase.
 
 
@@ -61,16 +61,17 @@ or if it appears that the implementation is in error,
 please search first in the [@https://svn.boost.org/trac/boost/ Boost Trac].
 
 * [@https://svn.boost.org/trac/boost/ Trac] entries may indicate that
-updates or corrections that solve your problem are in 
-[@http://svn.boost.org/svn/boost/trunk Boost-trunk]
+updates or corrections that solve your problem are in the GIT
+[@https://svn.boost.org/trac/boost/wiki/ModularBoost modular Boost] branches,
 where changes are being assembled and tested ready for the next release.
-You may, at your own risk, download new versions from there.
+You may, at your own risk, download new versions or individual files from there.
 
 * If you do not understand why things work the way they do, see the ['rationale] section.
 
 * If you do not find your idea/feature/complaint,
-please reach the author preferably through the Boost
-development list, or email the author(s) direct.
+please reach the author preferably through the
+boost\@lists.boost.org Boost development list
+or email the author(s) direct.
 
 [h5 Admonishments]
 
@@ -95,98 +96,97 @@ and very likely undesired, results.]
 
 [variablelist
 [[\/concepts\/]
-   [Prototype defining the *essential* features of a RealType 
-   class (see real_concept.hpp). Most applications will use `double` 
-   as the RealType (and short `typedef` names of distributions are 
-   reserved for this type where possible), a few will use `float` or 
-   `long double`, but it is also possible to use higher precision types 
+   [Prototype defining the *essential* features of a RealType
+   class (see real_concept.hpp). Most applications will use `double`
+   as the RealType (and short `typedef` names of distributions are
+   reserved for this type where possible), a few will use `float` or
+   `long double`, but it is also possible to use higher precision types
    like __NTL_RR, __GMP, __MPFR
 that conform to the requirements specified by real_concept.]]
 
 [[\/constants\/]
-   [Templated definition of some highly accurate math 
+   [Templated definition of some highly accurate math
    constants (in constants.hpp).]]
-  
+
 [[\/distributions\/]
-   [Distributions used in mathematics and, especially, statistics: 
+   [Distributions used in mathematics and, especially, statistics:
    Gaussian, Students-t, Fisher, Binomial etc]]
 
 [[\/policies\/]
    [Policy framework, for handling user requested behaviour modifications.]]
-                     
+
 [[\/special_functions\/]
-   [Math functions generally regarded as 'special', like beta, 
-   cbrt, erf, gamma, lgamma, tgamma ... (Some of these are specified in 
+   [Math functions generally regarded as 'special', like beta,
+   cbrt, erf, gamma, lgamma, tgamma ... (Some of these are specified in
    C++, and C99\/TR1, and perhaps TR2).]]
-                     
+
 [[\/tools\/]
-   [Tools used by functions, like evaluating polynomials, continued fractions, 
-   root finding, precision and limits, and by tests. Some will 
+   [Tools used by functions, like evaluating polynomials, continued fractions,
+   root finding, precision and limits, and by tests. Some will
    find application outside this package.]]
 ]
-  
+
 [h4 boost\/libs]
 
 [variablelist
 [[\/doc\/]
-   [Documentation source files in Quickbook format processed into 
+   [Documentation source files in Quickbook format processed into
    html and pdf formats.]]
-   
+
 [[\/examples\/]
    [Examples and demos of using math functions and distributions.]]
-   
+
 [[\/performance\/]
    [Performance testing and tuning program.]]
-   
+
 [[\/test\/]
-   [Test files, in many .cpp files, most using Boost.Test 
-   (some with test data as .ipp files, usually generated using NTL RR 
-   type with ample precision for the type, often for precisions 
-   suitable for up to 256-bit significand real types).]]
-   
+   [Test files, in many .cpp files, most using Boost.Test
+   (some with test data as .ipp files, usually generated using NTL RR
+   or Boost.Multiprecision floating-point types with ample precision for the type,
+   often for precisions suitable for up to 256-bit significand real types).]]
+
 [[\/tools\/]
    [Programs used to generate test data.  Also changes to the
-   [@http://shoup.net/ntl/ NTL] released package to provide a few additional 
+   [@http://shoup.net/ntl/ NTL] released package to provide a few additional
    (and vital) extra features.]]
 ]
 
 [endsect] [/section:directories Directory and File Structure]
-   
+
 [section:namespaces Namespaces]
-   
+
 All math functions and distributions are in `namespace boost::math`
-   
+
 So, for example, the Students-t distribution template in `namespace boost::math` is
-   
+
    template <class RealType> class students_t_distribution
-   
+
 and can be instantiated with the help of the reserved name `students_t`(for `RealType  double`)
-   
+
    typedef students_t_distribution<double> students_t;
-   
+
    student_t mydist(10);
-   
+
 [warning Some distribution names are also used in std random library,
-so to avoid the risk of ambiguity it is better to make explicit using declarations,
-for example: `using boost::math::students_t_distribution`]
-   
+so to avoid the risk of ambiguity it is better to write explicit using declarations,
+for example: `using boost::math::students_t_distribution`.]
+
 Functions not intended for use by applications are in `boost::math::detail`.
 
-Functions that may have more general use, like `digits` 
-(significand), `max_value`, `min_value` and `epsilon` are in 
-`boost::math::tools`.
+Functions that may have more general use, like `digits`(binary in significand),
+`max_value`, `min_value` and `epsilon` are in`boost::math::tools`.
+These provide sensible values for platforms that do not fully implement `<limits>`.
 
 __Policy and configuration information is in namespace `boost::math::policies`.
 
 [tip Many code snippets assume implicit namespace(s),
 for example, `std::` or `boost::math`.]
 
-
 [endsect] [/section:namespaces Namespaces]
 
 
 [/ structure.qbk
-  Copyright 2006, 2010, 2012 John Maddock and Paul A. Bristow.
+  Copyright 2006, 2010, 2012, 2014 John Maddock and Paul A. Bristow.
   Distributed under the Boost Software License, Version 1.0.
   (See accompanying file LICENSE_1_0.txt or copy at
   http://www.boost.org/LICENSE_1_0.txt).

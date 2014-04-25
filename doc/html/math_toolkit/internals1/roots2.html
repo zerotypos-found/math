@@ -3,8 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Root Finding Without Derivatives: Bisection, Bracket and TOMS748</title>
 <link rel="stylesheet" href="../../math.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="../../index.html" title="Math Toolkit 1.9.0">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<link rel="home" href="../../index.html" title="Math Toolkit 1.9.1">
 <link rel="up" href="../internals1.html" title="Utilities &amp; internals">
 <link rel="prev" href="roots.html" title="Root Finding With Derivatives: Newton-Raphson, Halley &amp; Schroeder">
 <link rel="next" href="minima.html" title="Locating Function Minima: Brent's algorithm">
@@ -150,7 +150,8 @@
         The <code class="computeroutput"><span class="identifier">bracket_and_solve_root</span></code>
         functions use TOMS Algorithm 748 that is asymptotically the most efficient
         known, and have been shown to be optimal for a certain classes of smooth
-        functions. Variants with and without __policies are provided.
+        functions. Variants with and without <a class="link" href="../../policy.html" title="Chapter&#160;14.&#160;Policies: Controlling Precision, Error Handling etc">Policies</a>
+        are provided.
       </p>
 <p>
         Alternatively, there is a simple bisection routine which can be useful in

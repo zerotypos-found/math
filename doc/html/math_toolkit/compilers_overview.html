@@ -3,8 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Compilers</title>
 <link rel="stylesheet" href="../math.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="../index.html" title="Math Toolkit 1.9.0">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<link rel="home" href="../index.html" title="Math Toolkit 1.9.1">
 <link rel="up" href="../overview.html" title="Chapter&#160;1.&#160;Overview">
 <link rel="prev" href="error_handling.html" title="Error Handling">
 <link rel="next" href="config_macros.html" title="Configuration Macros">
@@ -32,6 +32,70 @@
       Some effort has been made to suppress unhelpful warnings but it is difficult
       to achieve this on all systems.
     </p>
+<p>
+      We provide below a summary of the results of
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+          Tests of Boost normal full release packages using a few popular platforms.
+        </li>
+<li class="listitem">
+          Continuous tests of current Modular Boost development GIT master and develop
+          branches.
+        </li>
+</ul></div>
+<p>
+      All these test results come with a caveat that:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+          Many failures are from compiler or standard library bugs which are often
+          fixed (or worked-around) in later compile tools releases.
+        </li>
+<li class="listitem">
+          Failure of a single test does <span class="bold"><strong>not</strong></span> mean
+          that it is necessarily unusable for the many users' purposes.
+        </li>
+<li class="listitem">
+          Some failures are because the test takes too long and is aborted.
+        </li>
+<li class="listitem">
+          Some failures are because the tolerance chosen is too tight for a platform.
+        </li>
+</ul></div>
+<h5>
+<a name="math_toolkit.compilers_overview.h0"></a>
+      <span class="phrase"><a name="math_toolkit.compilers_overview.continous_testing_of_master_and_"></a></span><a class="link" href="compilers_overview.html#math_toolkit.compilers_overview.continous_testing_of_master_and_">Continous
+      testing of Master and Development GIT branches</a>
+    </h5>
+<p>
+      The results of continous testing of the latest GIT branches on a range of hardware
+      and software platforms is available at the master branch <a href="http://www.boost.org/development/tests/master/developer/math.html" target="_top">master
+      branch </a> and the develop branch <a href="http://www.boost.org/development/tests/develop/developer/math.html" target="_top">develop
+      branch</a>.
+    </p>
+<h5>
+<a name="math_toolkit.compilers_overview.h1"></a>
+      <span class="phrase"><a name="math_toolkit.compilers_overview.tests_by_users"></a></span><a class="link" href="compilers_overview.html#math_toolkit.compilers_overview.tests_by_users">Tests
+      by Users</a>
+    </h5>
+<p>
+      Users can carry our their own tests on their own platform using the jamfile
+      provided, for example, by executing this in the <code class="computeroutput"><span class="special">/</span><span class="identifier">test</span><span class="special">/</span></code>folder
+      and saving the results in a file:
+    </p>
+<pre class="programlisting"><span class="identifier">cd</span> <span class="identifier">path</span><span class="special">/</span><span class="identifier">to</span><span class="special">/</span><span class="identifier">math</span><span class="special">/</span><span class="identifier">test</span>
+<span class="identifier">b2</span> <span class="special">&gt;</span> <span class="identifier">your_test</span><span class="special">.</span><span class="identifier">log</span>
+</pre>
+<p>
+      Inspection of the file, for example by searching for the string <span class="emphasis"><em>fail</em></span>,
+      will provide some guidance.
+    </p>
+<h5>
+<a name="math_toolkit.compilers_overview.h2"></a>
+      <span class="phrase"><a name="math_toolkit.compilers_overview.sumary_of_normal_boost_release_r"></a></span><a class="link" href="compilers_overview.html#math_toolkit.compilers_overview.sumary_of_normal_boost_release_r">Sumary
+      of Normal Boost Release results</a>
+    </h5>
 <div class="table">
 <a name="math_toolkit.compilers_overview.supported_tested_compilers"></a><p class="title"><b>Table&#160;1.9.&#160;Supported/Tested Compilers</b></p>
 <div class="table-contents"><table class="table" summary="Supported/Tested Compilers">
@@ -558,7 +622,7 @@
             </td>
 <td>
               <p>
-                Clang 3.2
+                Clang 3.2 and later
               </p>
             </td>
 <td>
@@ -597,11 +661,192 @@
               </p>
             </td>
 </tr>
+<tr>
+<td>
+              <p>
+                Ubuntu
+              </p>
+            </td>
+<td>
+              <p>
+                Clang 3.2 and later
+              </p>
+            </td>
+<td>
+              <p>
+                Yes
+              </p>
+            </td>
+<td>
+              <p>
+                All tests expected to be OK.
+              </p>
+            </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break"><p>
+      With devices like tablets, phones etc using 32-bit <a href="http://en.wikipedia.org/wiki/ARM_architecture" target="_top">ARM
+      chips</a> there are an increasing support by C++ compilers (particularly
+      <a href="http://clang.llvm.org/" target="_top">Clang</a> and <a href="http://gcc.gnu.org/" target="_top">GCC</a>)
+      that can produce binary for these devices.
+    </p>
+<p>
+      There are very many (probably essential) options for generating ARM code: see
+      <a href="http://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html" target="_top">GCC ARM options</a>
+      and <a href="http://clang.llvm.org/docs/UsersManual.html#arm" target="_top">Clang ARM
+      options</a>.
+    </p>
+<p>
+      Some can run a Linux family OS and may even be able to compile C++, build and
+      execute on their own.
+    </p>
+<p>
+      The cheap low power single-board computers (<a href="http://en.wikipedia.org/wiki/Raspberry_Pi" target="_top">Raspberry
+      Pi</a>, <a href="http://en.wikipedia.org/wiki/Arduino" target="_top">Arduino</a>...)
+      tend to be fairly slow, but are still capable of running Boost.Math special
+      functions and distributions.
+    </p>
+<div class="table">
+<a name="math_toolkit.compilers_overview.increasingly_supported_compilers"></a><p class="title"><b>Table&#160;1.10.&#160;Increasingly Supported Compilers and Platforms</b></p>
+<div class="table-contents"><table class="table" summary="Increasingly Supported Compilers and Platforms">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th>
+              <p>
+                Platform
+              </p>
+            </th>
+<th>
+              <p>
+                Compiler
+              </p>
+            </th>
+<td class="auto-generated">&#160;</td>
+<td class="auto-generated">&#160;</td>
+</tr></thead>
+<tbody>
+<tr>
+<td>
+              <p>
+                Android
+              </p>
+            </td>
+<td>
+              <p>
+                MSVC 11.0
+              </p>
+            </td>
+<td>
+              <p>
+                Yes
+              </p>
+            </td>
+<td>
+              <p>
+                All tests expected to be OK.
+              </p>
+            </td>
+</tr>
+<tr>
+<td>
+              <p>
+                Android
+              </p>
+            </td>
+<td>
+              <p>
+                LInux
+              </p>
+            </td>
+<td>
+              <p>
+                Yes
+              </p>
+            </td>
+<td>
+              <p>
+                All tests expected to be OK.
+              </p>
+            </td>
+</tr>
+<tr>
+<td>
+              <p>
+                Arduino Uno 8-bit
+              </p>
+            </td>
+<td>
+              <p>
+                Clang 3.6
+              </p>
+            </td>
+<td>
+              <p>
+                Yes
+              </p>
+            </td>
+<td>
+              <p>
+                May be OK, but policies must exclude exceptions.
+              </p>
+            </td>
+</tr>
+<tr>
+<td>
+              <p>
+                Arduino ARM
+              </p>
+            </td>
+<td>
+              <p>
+                Clang 3.6
+              </p>
+            </td>
+<td>
+              <p>
+                Yes
+              </p>
+            </td>
+<td>
+              <p>
+                All tests probably OK.
+              </p>
+            </td>
+</tr>
+<tr>
+<td>
+              <p>
+                Raspberry Pi ARM
+              </p>
+            </td>
+<td>
+              <p>
+                Clang 3.6
+              </p>
+            </td>
+<td>
+              <p>
+                Yes
+              </p>
+            </td>
+<td>
+              <p>
+                All tests expected to be OK.
+              </p>
+            </td>
+</tr>
 </tbody>
 </table></div>
 </div>
 <br class="table-break"><div class="table">
-<a name="math_toolkit.compilers_overview.unsupported_compilers"></a><p class="title"><b>Table&#160;1.10.&#160;Unsupported Compilers</b></p>
+<a name="math_toolkit.compilers_overview.unsupported_compilers"></a><p class="title"><b>Table&#160;1.11.&#160;Unsupported Compilers</b></p>
 <div class="table-contents"><table class="table" summary="Unsupported Compilers">
 <colgroup>
 <col>
@@ -649,9 +894,9 @@
 </div>
 <br class="table-break"><p>
       If your compiler or platform is not listed above, please try running the regression
-      tests: cd into boost-root/libs/math/test and do a:
+      tests: cd into boost-root/libs/math/test and do
     </p>
-<pre class="programlisting"><span class="identifier">bjam</span> <span class="identifier">mytoolset</span>
+<pre class="programlisting"><span class="identifier">b2</span> <span class="identifier">mytoolset</span>
 </pre>
 <p>
       where "mytoolset" is the name of the <a href="http://www.boost.org/doc/html/bbv2.html" target="_top">Boost.Build</a>

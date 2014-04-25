@@ -3,8 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Namespaces</title>
 <link rel="stylesheet" href="../math.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="../index.html" title="Math Toolkit 1.9.0">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<link rel="home" href="../index.html" title="Math Toolkit 1.9.1">
 <link rel="up" href="../overview.html" title="Chapter&#160;1.&#160;Overview">
 <link rel="prev" href="directories.html" title="Directory and File Structure">
 <link rel="next" href="result_type.html" title="Calculation of the Type of the Result">
@@ -51,17 +51,18 @@
 </tr>
 <tr><td align="left" valign="top"><p>
         Some distribution names are also used in std random library, so to avoid
-        the risk of ambiguity it is better to make explicit using declarations, for
-        example: <code class="computeroutput"><span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">students_t_distribution</span></code>
+        the risk of ambiguity it is better to write explicit using declarations,
+        for example: <code class="computeroutput"><span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">students_t_distribution</span></code>.
       </p></td></tr>
 </table></div>
 <p>
       Functions not intended for use by applications are in <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">detail</span></code>.
     </p>
 <p>
-      Functions that may have more general use, like <code class="computeroutput"><span class="identifier">digits</span></code>
-      (significand), <code class="computeroutput"><span class="identifier">max_value</span></code>,
-      <code class="computeroutput"><span class="identifier">min_value</span></code> and <code class="computeroutput"><span class="identifier">epsilon</span></code> are in <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">tools</span></code>.
+      Functions that may have more general use, like <code class="computeroutput"><span class="identifier">digits</span></code>(binary
+      in significand), <code class="computeroutput"><span class="identifier">max_value</span></code>,
+      <code class="computeroutput"><span class="identifier">min_value</span></code> and <code class="computeroutput"><span class="identifier">epsilon</span></code> are in<code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">tools</span></code>. These provide sensible values for
+      platforms that do not fully implement <code class="computeroutput"><span class="special">&lt;</span><span class="identifier">limits</span><span class="special">&gt;</span></code>.
     </p>
 <p>
       <a class="link" href="../policy.html" title="Chapter&#160;14.&#160;Policies: Controlling Precision, Error Handling etc">Policy</a> and configuration information is in namespace

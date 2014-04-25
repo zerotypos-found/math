@@ -1,5 +1,4 @@
 
-
 [template policy_overview[]
 
 Policies are a powerful fine-grain mechanism that allow you to customise the
@@ -89,6 +88,35 @@ work with this library.
 It is not comprehensive and updated experiences are always welcome.
 Some effort has been made to suppress unhelpful warnings but it is
 difficult to achieve this on all systems.
+
+We provide below a summary of the results of
+
+* Tests of Boost normal full release packages using a few popular platforms.
+* Continuous tests of current Modular Boost development GIT master and develop branches.
+
+All these test results come with a caveat that:
+
+*  Many failures are from compiler or standard library bugs which are often fixed (or worked-around) in later compile tools releases.
+*  Failure of a single test does [*not] mean that it is necessarily unusable for the many users' purposes.
+* Some failures are because the test takes too long and is aborted.
+* Some failures are because the tolerance chosen is too tight for a platform.
+
+[h4 Continous testing of Master and Development GIT branches]
+
+The results of continous testing of the latest GIT branches on a range of hardware and software platforms is
+ available at the master branch [@http://www.boost.org/development/tests/master/developer/math.html master branch ]
+ and the develop branch [@http://www.boost.org/development/tests/develop/developer/math.html develop branch].
+
+[h4 Tests by Users]
+Users can carry our their own tests on their own platform using the jamfile provided,
+for example, by executing this in the `/test/`folder and saving the results in a file:
+
+   cd path/to/math/test
+   b2 > your_test.log
+
+Inspection of the file, for example by searching for the string ['fail], will provide some guidance.
+
+[h4 Sumary of Normal Boost Release results]
 
 [table Supported/Tested Compilers
 [[Platform][Compiler][Has long double support][Notes]]
@@ -186,11 +214,37 @@ difficult to achieve this on all systems.
    rather strange nature of Darwin's 106-bit long double
    implementation.  It should be possible to make this work if someone
    is prepared to offer assistance.]]
-[[Apple Mac OS X,][Clang 3.2][Yes][All tests expected to be OK.]]
+[[Apple Mac OS X,][Clang 3.2 and later][Yes][All tests expected to be OK.]]
 [[IBM AIX][IBM xlc 5.3][Yes]
    [All tests pass except for our fpclassify tests which fail due to a
    bug in `std::numeric_limits`, the bug effects the test code, not
    fpclassify itself.  The IBM compiler group are aware of the problem.]]
+[[Ubuntu][Clang 3.2 and later][Yes][All tests expected to be OK.]]
+]
+
+With  devices like tablets, phones etc using 32-bit
+[@http://en.wikipedia.org/wiki/ARM_architecture ARM chips]
+there are an increasing support by C++ compilers (particularly __Clang and __GCC)
+that can produce binary for these devices.
+
+There are very many (probably essential) options for generating ARM code: see
+[@http://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html GCC ARM options] and
+[@http://clang.llvm.org/docs/UsersManual.html#arm Clang ARM options].
+
+Some can run a Linux family OS
+and may even be able to compile C++, build and execute on their own.
+
+The cheap low power single-board computers (__Raspberry_pi, __Arduino...) tend to be fairly slow,
+(taking a week to run the full Boost test suite!)
+but are still capable of running Boost.Math special functions and distributions (if not all Boost libraries).
+
+[table Increasingly Supported Compilers and Platforms
+[[Platform][Compiler]]
+[[Android][MSVC 11.0][Yes][All tests expected to be OK.]]
+[[Android][LInux][Yes][All tests expected to be OK.]]
+[[Arduino Uno 8-bit][Clang 3.6][Yes][May be OK, but policies must exclude exceptions.]]
+[[Arduino ARM][Clang 3.6][Yes][All tests probably OK.]]
+[[Raspberry Pi ARM][Clang 3.6][Yes][All tests expected to be OK.]]
 ]
 
 [table Unsupported Compilers
@@ -200,9 +254,9 @@ difficult to achieve this on all systems.
 ]
 
 If your compiler or platform is not listed above, please try running the
-regression tests: cd into boost-root/libs/math/test and do a:
+regression tests: cd into boost-root/libs/math/test and do
 
-   bjam mytoolset
+   b2 mytoolset
 
 where "mytoolset" is the name of the
 [@http://www.boost.org/doc/html/bbv2.html Boost.Build]
@@ -215,8 +269,8 @@ for some functions).
 You will need to cast an eye over the output from
 the failing tests and make a judgement as to whether
 the error rates are acceptable or not.
-]
 
+]
 [/ common_overviews.qbk
   Copyright 2007, 2012, 2014 John Maddock and Paul A. Bristow.
   Distributed under the Boost Software License, Version 1.0.

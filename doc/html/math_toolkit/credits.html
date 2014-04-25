@@ -3,8 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Credits and Acknowledgements</title>
 <link rel="stylesheet" href="../math.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="../index.html" title="Math Toolkit 1.9.0">
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+<link rel="home" href="../index.html" title="Math Toolkit 1.9.1">
 <link rel="up" href="../status.html" title="Chapter&#160;17.&#160;Library Status">
 <link rel="prev" href="issues.html" title="Known Issues, and TODO List">
 <link rel="next" href="../indexes.html" title="Chapter&#160;18.&#160;Indexes">
@@ -142,6 +142,30 @@
 <p>
       Christopher Kormanyos wrote some examples for using <a href="http://www.boost.org/doc/libs/1_53_0_beta1/libs/multiprecision/doc/html/index.html" target="_top">Boost.Multiprecision</a>,
       and added methods for finding zeros of Bessel Functions.
+    </p>
+<p>
+      Nikhar Agrawal implemented Bernoulli numbers and their derivatives (supported
+      by Google Summer of Code 2013).
+    </p>
+<p>
+      Anton Bikineev implemented Bessel derivatives.
+    </p>
+<p>
+      The proposal of specified-width floating-point types (modelled on <code class="computeroutput"><span class="special">&lt;</span><span class="identifier">cstdint</span><span class="special">&gt;</span></code>) was drawn up by Paul A. Bristow, Christopher
+      Kormanyos and John Maddock and submitted to C and C++ Standards body as <a href="http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1703.pdf" target="_top">N1703</a>
+      and <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3626.pdf" target="_top">N3626</a>.
+    </p>
+<p>
+      Christopher Kormanyos and John Maddock worked on a Boost.Math implementation
+      showing that the proposal can be implemented and is useful. This allows the
+      <a class="link" href="overview.html" title="Overview">cstdfloat specified-width typedefs</a>
+      like <code class="computeroutput"><span class="identifier">float_128_t</span></code> to be used
+      with Boost.Math on GCC and Intel platforms, and <code class="computeroutput"><span class="identifier">floatmax_t</span></code>
+      to be used portably on all platforms.
+    </p>
+<p>
+      Rocco Romeo and HenSiong Tan both provided expertly informed feedback on bugs
+      and features in distributions and special functions.
     </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

@@ -5,99 +5,99 @@
 ``
 #include <boost/math/tools/roots.hpp>
 ``
-		
+
    namespace boost{ namespace math{
    namespace tools{
    // Bisection
    template <class F, class T, class Tol>
-   std::pair<T, T> 
+   std::pair<T, T>
       bisect(
-         F f, 
-         T min, 
-         T max, 
-         Tol tol, 
+         F f,
+         T min,
+         T max,
+         Tol tol,
          boost::uintmax_t& max_iter);
 
    template <class F, class T, class Tol>
-   std::pair<T, T> 
+   std::pair<T, T>
       bisect(
-         F f, 
-         T min, 
-         T max, 
+         F f,
+         T min,
+         T max,
          Tol tol);
 
    template <class F, class T, class Tol, class ``__Policy``>
-   std::pair<T, T> 
+   std::pair<T, T>
       bisect(
-         F f, 
-         T min, 
-         T max, 
-         Tol tol, 
+         F f,
+         T min,
+         T max,
+         Tol tol,
          boost::uintmax_t& max_iter,
          const ``__Policy``&);
 
 		// Bracket and Solve Root
    template <class F, class T, class Tol>
-   std::pair<T, T> 
+   std::pair<T, T>
       bracket_and_solve_root(
-         F f, 
-         const T& guess, 
-         const T& factor, 
-         bool rising, 
-         Tol tol, 
+         F f,
+         const T& guess,
+         const T& factor,
+         bool rising,
+         Tol tol,
          boost::uintmax_t& max_iter);
 
    template <class F, class T, class Tol, class ``__Policy``>
-   std::pair<T, T> 
+   std::pair<T, T>
       bracket_and_solve_root(
-         F f, 
-         const T& guess, 
-         const T& factor, 
-         bool rising, 
-         Tol tol, 
+         F f,
+         const T& guess,
+         const T& factor,
+         bool rising,
+         Tol tol,
          boost::uintmax_t& max_iter,
          const ``__Policy``&);
 
 	// TOMS 748 algorithm
    template <class F, class T, class Tol>
-   std::pair<T, T> 
+   std::pair<T, T>
       toms748_solve(
-         F f, 
-         const T& a, 
-         const T& b, 
-         Tol tol, 
+         F f,
+         const T& a,
+         const T& b,
+         Tol tol,
          boost::uintmax_t& max_iter);
 
    template <class F, class T, class Tol, class ``__Policy``>
-   std::pair<T, T> 
+   std::pair<T, T>
       toms748_solve(
-         F f, 
-         const T& a, 
-         const T& b, 
-         Tol tol, 
+         F f,
+         const T& a,
+         const T& b,
+         Tol tol,
          boost::uintmax_t& max_iter,
          const ``__Policy``&);
 
    template <class F, class T, class Tol>
-   std::pair<T, T> 
+   std::pair<T, T>
       toms748_solve(
-         F f, 
-         const T& a, 
-         const T& b, 
-         const T& fa, 
-         const T& fb, 
-         Tol tol, 
+         F f,
+         const T& a,
+         const T& b,
+         const T& fa,
+         const T& fb,
+         Tol tol,
          boost::uintmax_t& max_iter);
 
    template <class F, class T, class Tol, class ``__Policy``>
-   std::pair<T, T> 
+   std::pair<T, T>
       toms748_solve(
-         F f, 
-         const T& a, 
-         const T& b, 
-         const T& fa, 
-         const T& fb, 
-         Tol tol, 
+         F f,
+         const T& a,
+         const T& b,
+         const T& fa,
+         const T& fb,
+         Tol tol,
          boost::uintmax_t& max_iter,
          const ``__Policy``&);
 
@@ -108,25 +108,25 @@
    struct equal_floor;
    struct equal_ceil;
    struct equal_nearest_integer;
-   
+
    }}} // namespaces
-   
+
 [h4 Description]
 
-These functions solve the root of some function /f(x)/ ['without the 
+These functions solve the root of some function /f(x)/ ['without the
 need for any derivatives of /f(x)/].
 
 The `bracket_and_solve_root` functions use TOMS Algorithm 748 that is asymptotically the most efficient known,
 and have been shown to be optimal for a certain classes of smooth functions.
-Variants with and without __policies are provided.
+Variants with and without __policy_section are provided.
 
 Alternatively, there is a simple bisection routine which can be useful
-in its own right in some situations, or alternatively for narrowing 
+in its own right in some situations, or alternatively for narrowing
 down the range containing the root, prior to calling a more advanced
 algorithm.
 
 All the algorithms in this section reduce the diameter of the enclosing
-interval with the same asymptotic efficiency with which they locate the 
+interval with the same asymptotic efficiency with which they locate the
 root.  This is in contrast to the derivative based methods which may /never/
 significantly reduce the enclosing interval, even though they rapidly approach
 the root.  This is also in contrast to some other derivative-free methods
@@ -144,29 +144,29 @@ only rarely, but may be useful in some specific circumstances.
 [h6 Bisection]
 
    template <class F, class T, class Tol>
-   std::pair<T, T> 
+   std::pair<T, T>
       bisect(
-         F f, 
-         T min, 
-         T max, 
-         Tol tol, 
+         F f,
+         T min,
+         T max,
+         Tol tol,
          boost::uintmax_t& max_iter);
 
    template <class F, class T, class Tol>
-   std::pair<T, T> 
+   std::pair<T, T>
       bisect(
-         F f, 
-         T min, 
-         T max, 
+         F f,
+         T min,
+         T max,
          Tol tol);
 
    template <class F, class T, class Tol, class ``__Policy``>
-   std::pair<T, T> 
+   std::pair<T, T>
       bisect(
-         F f, 
-         T min, 
-         T max, 
-         Tol tol, 
+         F f,
+         T min,
+         T max,
+         Tol tol,
          boost::uintmax_t& max_iter,
          const ``__Policy``&);
 
@@ -190,7 +190,7 @@ These functions locate the root using bisection: function arguments are:
 Returns: a pair of values /r/ that bracket the root so that:
 
    f(r.first) * f(r.second) <= 0
-   
+
 and either
 
    tol(r.first, r.second) == true
@@ -202,30 +202,30 @@ or
 where /m/ is the initial value of /max_iter/ passed to the function.
 
 In other words, it's up to the caller to verify whether termination occurred
-as a result of exceeding /max_iter/ function invocations (easily done by 
-checking the updated value of /max_iter/ when the function returns), rather than 
+as a result of exceeding /max_iter/ function invocations (easily done by
+checking the updated value of /max_iter/ when the function returns), rather than
 because the termination condition /tol/ was satisfied.
 
 [h6 Bracket and solve]
 
    template <class F, class T, class Tol>
-   std::pair<T, T> 
+   std::pair<T, T>
       bracket_and_solve_root(
-         F f, 
-         const T& guess, 
-         const T& factor, 
-         bool rising, 
-         Tol tol, 
+         F f,
+         const T& guess,
+         const T& factor,
+         bool rising,
+         Tol tol,
          boost::uintmax_t& max_iter);
 
    template <class F, class T, class Tol, class ``__Policy``>
-   std::pair<T, T> 
+   std::pair<T, T>
       bracket_and_solve_root(
-         F f, 
-         const T& guess, 
-         const T& factor, 
-         bool rising, 
-         Tol tol, 
+         F f,
+         const T& guess,
+         const T& factor,
+         bool rising,
+         Tol tol,
          boost::uintmax_t& max_iter,
          const ``__Policy``&);
 
@@ -248,18 +248,18 @@ particular it is known whether the root is occurs for positive or negative
          of /f(guess)/ to determine if /guess/ is
          above or below the root.]]
 [[tol]   [A binary functor that determines the termination condition for the search
-         for the root.  /tol/ is passed the current brackets at each step, 
+         for the root.  /tol/ is passed the current brackets at each step,
          when it returns true then the current brackets are returned as the result.]]
-[[max_iter] [The maximum number of function invocations to perform in the search 
+[[max_iter] [The maximum number of function invocations to perform in the search
             for the root.  On exit is set to the actual number of invocations performed.]]
 ]
 
 [optional_policy]
-         
+
 Returns: a pair of values /r/ that bracket the root so that:
 
    f(r.first) * f(r.second) <= 0
-   
+
 and either
 
    tol(r.first, r.second) == true
@@ -271,54 +271,54 @@ or
 where /m/ is the initial value of /max_iter/ passed to the function.
 
 In other words, it's up to the caller to verify whether termination occurred
-as a result of exceeding /max_iter/ function invocations (easily done by 
-checking the value of /max_iter/ when the function returns), rather than 
+as a result of exceeding /max_iter/ function invocations (easily done by
+checking the value of /max_iter/ when the function returns), rather than
 because the termination condition /tol/ was satisfied.
 
-[h6 Algorithm TOMS 748: Alefeld, Potra and Shi: Enclosing zeros of continuous functions] 
+[h6 Algorithm TOMS 748: Alefeld, Potra and Shi: Enclosing zeros of continuous functions]
 
    template <class F, class T, class Tol>
-   std::pair<T, T> 
+   std::pair<T, T>
       toms748_solve(
-         F f, 
-         const T& a, 
-         const T& b, 
-         Tol tol, 
+         F f,
+         const T& a,
+         const T& b,
+         Tol tol,
          boost::uintmax_t& max_iter);
 
    template <class F, class T, class Tol, class ``__Policy``>
-   std::pair<T, T> 
+   std::pair<T, T>
       toms748_solve(
-         F f, 
-         const T& a, 
-         const T& b, 
-         Tol tol, 
+         F f,
+         const T& a,
+         const T& b,
+         Tol tol,
          boost::uintmax_t& max_iter,
          const ``__Policy``&);
 
    template <class F, class T, class Tol>
-   std::pair<T, T> 
+   std::pair<T, T>
       toms748_solve(
-         F f, 
-         const T& a, 
-         const T& b, 
-         const T& fa, 
-         const T& fb, 
-         Tol tol, 
+         F f,
+         const T& a,
+         const T& b,
+         const T& fa,
+         const T& fb,
+         Tol tol,
          boost::uintmax_t& max_iter);
-         
+
    template <class F, class T, class Tol, class ``__Policy``>
-   std::pair<T, T> 
+   std::pair<T, T>
       toms748_solve(
-         F f, 
-         const T& a, 
-         const T& b, 
-         const T& fa, 
-         const T& fb, 
-         Tol tol, 
+         F f,
+         const T& a,
+         const T& b,
+         const T& fa,
+         const T& fb,
+         Tol tol,
          boost::uintmax_t& max_iter,
          const ``__Policy``&);
-         
+
 These two functions implement TOMS Algorithm 748: it uses a mixture of
 cubic, quadratic and linear (secant) interpolation to locate the root of
 /f(x)/.  The two functions differ only by whether values for /f(a)/ and
@@ -335,9 +335,9 @@ cubic, quadratic and linear (secant) interpolation to locate the root of
 [[fa]  [Optional: the value of /f(a)/.]]
 [[fb]  [Optional: the value of /f(b)/.]]
 [[tol]   [A binary functor that determines the termination condition for the search
-         for the root.  /tol/ is passed the current brackets at each step, 
+         for the root.  /tol/ is passed the current brackets at each step,
          when it returns true, then the current brackets are returned as the result.]]
-[[max_iter] [The maximum number of function invocations to perform in the search 
+[[max_iter] [The maximum number of function invocations to perform in the search
             for the root.  On exit /max_iter/ is set to actual number of function
             invocations used.]]
 ]
@@ -353,8 +353,8 @@ or
 where /m/ is the initial value of /max_iter/ passed to the function.
 
 In other words, it's up to the caller to verify whether termination occurred
-as a result of exceeding /max_iter/ function invocations (easily done by 
-checking the updated value of /max_iter/ 
+as a result of exceeding /max_iter/ function invocations (easily done by
+checking the updated value of /max_iter/
 against its previous value passed as parameter),
 rather than because the termination condition /tol/ was satisfied.
 
@@ -364,7 +364,7 @@ rather than because the termination condition /tol/ was satisfied.
       eps_tolerance(int bits);
       bool operator()(const T& a, const T& b)const;
    };
-   
+
 `eps_tolerance` is the usual termination condition used with these root finding functions.
 Its operator() will return true when the relative distance between /a/ and /b/
 is less than twice the machine epsilon for T, or 2[super 1-bits], whichever is
@@ -372,17 +372,17 @@ the larger.  In other words, you set /bits/ to the number of bits of precision y
 want in the result.  The minimal tolerance of twice the machine epsilon of T is
 required to ensure that we get back a bracketing interval: since this must clearly
 be at least 1 epsilon in size.
-   
+
    struct equal_floor
    {
       equal_floor();
       template <class T> bool operator()(const T& a, const T& b)const;
    };
-   
+
 This termination condition is used when you want to find an integer result
 that is the /floor/ of the true root.  It will terminate as soon as both ends
 of the interval have the same /floor/.
-   
+
    struct equal_ceil
    {
       equal_ceil();
@@ -408,16 +408,16 @@ of the interval round to the same nearest integer.
 The implementation of the bisection algorithm is extremely straightforward
 and not detailed here.  __TOMS748 is described in detail in:
 
-['Algorithm 748: Enclosing Zeros of Continuous Functions, 
-G. E. Alefeld, F. A. Potra and Yixun Shi, 
-ACM Transactions on Mathematica1 Software, Vol. 21. No. 3. September 1995. 
+['Algorithm 748: Enclosing Zeros of Continuous Functions,
+G. E. Alefeld, F. A. Potra and Yixun Shi,
+ACM Transactions on Mathematica1 Software, Vol. 21. No. 3. September 1995.
 Pages 327-344.]
 
 The implementation here is a faithful translation of this paper into C++.
 
 [endsect] [/section:roots2 Root Finding Without Derivatives]
 
-[/ 
+[/
   Copyright 2006, 2010 John Maddock and Paul A. Bristow.
   Distributed under the Boost Software License, Version 1.0.
   (See accompanying file LICENSE_1_0.txt or copy at

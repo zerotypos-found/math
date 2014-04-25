@@ -1,20 +1,17 @@
 [section:internals_overview Overview]
 
-This section contains internal utilities used by the library's implementation
-along with tools used in development and testing.  These tools have
-only minimal documentation, and crucially ['do not have stable interfaces].
+This section contains utilities used by this library's implementation along with tools used in development and testing.
 
-There is no doubt that these components can be improved, but they are also
-largely incidental to the main purpose of this library.
+These are now quite well tested and documented and should now be suitable for general use.
 
-These tools are designed to "just get the job done", and receive minimal
-documentation here, in the hopes that they will help stimulate further
-submissions to this library.
+These tools were designed to ['just get the job done];
+we hope that they will prove useful and
+help stimulate further submissions of similar tools to this library.
 
 [endsect] [/section:internals_overview Overview]
 
 [/
-  Copyright 2006, 2010, 2013 John Maddock and Paul A. Bristow.
+  Copyright 2006, 2010, 2013, 2014 John Maddock and Paul A. Bristow.
   Distributed under the Boost Software License, Version 1.0.
   (See accompanying file LICENSE_1_0.txt or copy at
   http://www.boost.org/LICENSE_1_0.txt).

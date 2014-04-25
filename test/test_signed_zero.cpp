@@ -262,5 +262,8 @@ test_signed_zero.cpp
 
   *** No errors detected
 
+  Clang darwin fails this test because of a missing assignment of fillchar in the constructor for stringstream.  April 2014
+  Bug is fixed but isn't running on the tester.
+
 */
 

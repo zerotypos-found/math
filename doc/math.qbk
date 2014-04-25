@@ -9,7 +9,7 @@
     ]
     [authors [Agrawal, Nikhar], [Bikineev, Anton], [Bristow, Paul A.], [Holin, Hubert], [Kormanyos, Christopher], [Lalande, Bruno], [Maddock, John], [Råde, Johan], [Sobotta, Benjamin], [Sewani, Gautam], [van den Berg, Thijs], [Walker, Daryle], [Zhang, Xiaogang]]
     [/last-revision $Date$]
-    [version 1.9.0]
+    [version 1.9.1]
 ]
 
 [template mathpart[id title]
@@ -71,7 +71,7 @@
 
 [template tr1[] [@http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1836.pdf Technical Report on C++ Library Extensions]]
 [template C99[] [@http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf C99 Standard ISO/IEC 9899:1999]]
-[template jm_rationals[] [link math_toolkit.sf_implementation.rational_approximations_used devised by JM]]
+[template jm_rationals[] [link math_toolkit.sf_implementation.rational_approx devised by JM]]
 
 [def __domain_error [link math_toolkit.error_handling.domain_error domain_error]]
 [def __pole_error [link math_toolkit.error_handling.pole_error pole_error]]
@@ -95,6 +95,7 @@ and use the function's name as the link text.]
 [def __relative_error [link math_toolkit.relative_error relative zero error]]
 [def __root_finding_with_derivatives [link math_toolkit.internals1.roots root-finding with derivatives]]
 [def __root_finding_without_derivatives [link math_toolkit.internals1.roots2 root-finding without derivatives]]
+[def __cstdfloat  [link math_toolkit.overview cstdfloat specified-width typedefs]]
 
 [/gammas]
 [def __lgamma [link math_toolkit.sf_gamma.lgamma lgamma]]
@@ -353,6 +354,12 @@ and use the function's name as the link text.]
 [def __Abramowitz_Stegun M. Abramowitz and I. A. Stegun, Handbook of Mathematical Functions, NBS  (1964)]
 [def _DMLF [@http://dlmf.nist.gov/ NIST Digital Library of Mathematical Functions]]
 
+[def __Raspberry_pi [@http://en.wikipedia.org/wiki/Raspberry_Pi Raspberry Pi]]
+[def __Arduino [@http://en.wikipedia.org/wiki/Arduino Arduino]]
+[def __Clang [@http://clang.llvm.org/ Clang]]
+[def __GCC [@http://gcc.gnu.org/ GCC]]
+
+
 [/ Some composite templates]
 [template super[x]'''<superscript>'''[x]'''</superscript>''']
 [template sub[x]'''<subscript>'''[x]'''</subscript>''']
@@ -540,7 +547,7 @@ and as a CD ISBN 0-9504833-2-X  978-0-9504833-2-0, Classification 519.2-dc22.
 [include octonion/math-octonion.qbk]
 [include gcd/math-gcd.qbk]
 
-[mathpart toolkit Internals (Series, Rationals and Continued Fractions, Root Finding, Function Minimization, Testing and Development Tools)]
+[mathpart toolkit Internals (Series, Rationals, Continued Fractions, Root Finding, Function Minimization, Testing & Development Tools)]
 
 [include internals/internals_overview.qbk]
 
@@ -563,7 +570,7 @@ and as a CD ISBN 0-9504833-2-X  978-0-9504833-2-0, Classification 519.2-dc22.
 
 [endmathpart] [/section:toolkit Toolkit]
 
-[mathpart using_udt Use with User-Defined Floating-Point Types - Boost.Multiprecision and others]
+[mathpart using_udt Use with User-Defined Floating-Point Types - Boost.Multiprecision & others]
 [include concepts/concepts.qbk]
 [endmathpart] [/section:using_udt Use with User Defined Floating-Point Types]
 
@@ -571,10 +578,10 @@ and as a CD ISBN 0-9504833-2-X  978-0-9504833-2-0, Classification 519.2-dc22.
 
 [include performance/performance.qbk]
 
-[mathpart backgrounders Backgrounders]
+[mathpart backgrounders Backgrounders - Implementation, Rationale, Lanczos, Remez & References]
 [include background/implementation.qbk]
 [include background/special_tut.qbk]
-[include background/error.qbk] [/relative error NOT handling]
+[include background/error.qbk] [/relative error - NOT handling errors]
 [include background/lanczos.qbk]
 [include background/remez.qbk]
 [include background/references.qbk]

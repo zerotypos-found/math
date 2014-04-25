@@ -171,14 +171,14 @@ by placing a semi-colon or vertical bar)
 to separate the variate from the parameter(s) that defines the shape of the distribution.[br]
 For example, the binomial distribution probability distribution function (PDF) is written as
 ['f(k| n, p)] = Pr(K = k|n, p) = probability of observing k successes out of n trials.
-K is the __random_variable, k is the __random_variate, 
+K is the __random_variable, k is the __random_variate,
 the parameters are n (trials) and p (probability).
 ] [/tip Random Variates and Distribution Parameters]
 
 [note  By convention, __random_variate are lower case, usually k is integral, x if real, and
 __random_variable are upper case, K if integral, X if real.  But this implementation treats
 all as floating point values `RealType`, so if you really want an integral result,
-you must round: see note on Discrete Probability Distributions below for details.] 
+you must round: see note on Discrete Probability Distributions below for details.]
 
 As noted above the non-member function `pdf` has one parameter for the distribution object,
 and a second for the random variate.  So taking our binomial distribution
@@ -216,10 +216,8 @@ Mathematically, the functions may make sense with an (+ or -) infinite value,
 but except for a few special cases (in the Normal and Cauchy distributions)
 this implementation limits random variates to finite values from the `max`
 to `min` for the `RealType`.
-(See [link math_toolkit.sf_implementation.handling_of_floating_point_infin
+(See [link math_toolkit.sf_implementation.infinity
 Handling of Floating-Point Infinity] for rationale).
-
-
 [note
 
 [*Discrete Probability Distributions]
