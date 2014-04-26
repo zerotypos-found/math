@@ -61,12 +61,12 @@ graphing program (or spreadsheet) for further analysis.
       test_data& insert(F func, const parameter_info<T>& arg1);
 
       template <class F>
-      test_data& insert(F func, const parameter_info<T>& arg1, 
+      test_data& insert(F func, const parameter_info<T>& arg1,
                         const parameter_info<T>& arg2);
 
       template <class F>
-      test_data& insert(F func, const parameter_info<T>& arg1, 
-                        const parameter_info<T>& arg2, 
+      test_data& insert(F func, const parameter_info<T>& arg1,
+                        const parameter_info<T>& arg2,
                         const parameter_info<T>& arg3);
 
       void clear();
@@ -102,11 +102,11 @@ graphing program (or spreadsheet) for further analysis.
 
    template <class T>
    std::ostream& write_code(std::ostream& os,
-                            const test_data<T>& data, 
+                            const test_data<T>& data,
                             const char* name);
-                            
+
    }}} // namespaces
-   
+
 [h4 Description]
 
 This tool is best illustrated with the following series of examples.
@@ -130,23 +130,23 @@ one could do this like so:
 
    #include <boost/math/tools/test_data.hpp>
    #include <boost/math/special_functions/gamma.hpp>
-   
+
    int main()
    {
       using namespace boost::math::tools;
-      
+
       // create an object to hold the data:
       test_data<double> data;
-      
+
       // insert 500 points at uniform intervals between just after -3 and 100:
       double (*pf)(double) = boost::math::lgamma;
       data.insert(pf, make_periodic_param(-3.0 + 0.00001, 100.0, 500));
-      
+
       // print out in csv format:
       write_csv(std::cout, data, ", ");
       return 0;
    }
-   
+
 Which, when plotted, results in:
 
 [graph lgamma]
@@ -165,7 +165,7 @@ In this example we'll generate test data for the beta function using
 [@http://shoup.net/ntl/doc/RR.txt NTL::RR] at 1000 bit precision.
 Rather than call our generic
 version of the beta function, we'll implement a deliberately naive version
-of the beta function using lgamma, and rely on the high precision of the 
+of the beta function using lgamma, and rely on the high precision of the
 data type used to get results accurate to at least 128-bit precision. In this
 way our test data is independent of whatever clever tricks we may wish to
 use inside the our beta function.
@@ -193,7 +193,7 @@ To start with then, here's the function object that creates the test data:
          //
          if(a < b)
             throw std::domain_error("");
-            
+
          // very naively calculate spots with lgamma:
          NTL::RR g1, g2, g3;
          int s1, s2, s3;
@@ -229,10 +229,10 @@ is designed for just that purpose.  The start of main will look something like:
       // prompt the user for the domain of a and b to test:
       get_user_parameter_info(arg1, "a");
       get_user_parameter_info(arg2, "b");
-      
+
       // create the data:
       data.insert(beta_data_generator(), arg1, arg2);
-      
+
       // see if the user want's any more domains tested:
       std::cout << "Any more data [y/n]?";
       std::getline(std::cin, line);
@@ -263,10 +263,10 @@ The format of the test data looks something like:
       beta_med_data = {
          SC_(0.4883005917072296142578125),
          SC_(0.4883005917072296142578125),
-         SC_(3.245912809500479157065104747353807392371), 
+         SC_(3.245912809500479157065104747353807392371),
          SC_(3.5808107852935791015625),
          SC_(0.4883005917072296142578125),
-         SC_(1.007653173802923954909901438393379243537), 
+         SC_(1.007653173802923954909901438393379243537),
          /* ... lots of rows skipped */
    };
 
@@ -278,21 +278,21 @@ one entry for each element in the tuple in addition to the input parameters.
 The first #define serves two purposes:
 
 * It reduces the file sizes considerably: all those `static_cast`'s add up to a lot
-of bytes otherwise (they are needed to suppress compiler warnings when `T` is 
+of bytes otherwise (they are needed to suppress compiler warnings when `T` is
 narrower than a `long double`).
 * It provides a useful customisation point: for example if we were testing
 a user-defined type that has more precision than a `long double` we could change
 it to:
 
 [^#define SC_(x) lexical_cast<T>(BOOST_STRINGIZE(x))]
-   
+
 in order to ensure that no truncation of the values occurs prior to conversion
 to `T`.  Note that this isn't used by default as it's rather hard on the compiler
 when the table is large.
 
 [h5 Example 3: Profiling a Continued Fraction for Convergence and Accuracy]
 
-Alternatively, lets say we want to profile a continued fraction for 
+Alternatively, lets say we want to profile a continued fraction for
 convergence and error.  As an example, we'll use the continued fraction
 for the upper incomplete gamma function, the following function object
 returns the next a[sub N ] and b[sub N ] of the continued fraction
@@ -361,7 +361,7 @@ for each element in the tuple (in addition to the input parameters):
 
 Feeding that functor into test_data allows rapid output of csv data,
 for whatever type `T` we may be interested in:
-   
+
    int main()
    {
       using namespace boost::math::tools;
@@ -377,7 +377,7 @@ for whatever type `T` we may be interested in:
 This time there's no need to plot a graph, the first few rows are:
 
    a and z,  Error/epsilon,  Iterations required
-   
+
    0.01,     9723.14,        4726
    1.0099,   9.54818,        87
    2.0098,   3.84777,        40
@@ -390,19 +390,19 @@ of a and z.
 
 [h4 reference]
 
-Most of this tool has been described already in the examples above, we'll 
+Most of this tool has been described already in the examples above, we'll
 just add the following notes on the non-member functions:
 
    template <class T>
    parameter_info<T> make_random_param(T start_range, T end_range, int n_points);
-   
-Tells class test_data to test /n_points/ random values in the range 
+
+Tells class test_data to test /n_points/ random values in the range
 [start_range,end_range].
 
    template <class T>
    parameter_info<T> make_periodic_param(T start_range, T end_range, int n_points);
-   
-Tells class test_data to test /n_points/ evenly spaced values in the range 
+
+Tells class test_data to test /n_points/ evenly spaced values in the range
 [start_range,end_range].
 
    template <class T>
@@ -413,7 +413,7 @@ Tells class test_data to test points of the form ['basis + R * 2[super expon]] f
 
    template <class T>
    bool get_user_parameter_info(parameter_info<T>& info, const char* param_name);
-   
+
 Prompts the user for the parameter range and form to use.
 
 Finally, if we don't want the parameter to be included in the output, we can tell
@@ -421,15 +421,15 @@ test_data by setting it a "dummy parameter":
 
    parameter_info<double> p = make_random_param(2.0, 5.0, 10);
    p.type |= dummy_param;
-   
+
 This is useful when the functor used transforms the parameter in some way
 before passing it to the function under test, usually the functor will then
 return both the transformed input and the result in a tuple, so there's no
 need for the original pseudo-parameter to be included in program output.
 
-[endsect][/section:test_data Graphing, Profiling, and Generating Test Data for Special Functions]
+[endsect] [/section:test_data Graphing, Profiling, and Generating Test Data for Special Functions]
 
-[/ 
+[/
   Copyright 2006 John Maddock and Paul A. Bristow.
   Distributed under the Boost Software License, Version 1.0.
   (See accompanying file LICENSE_1_0.txt or copy at

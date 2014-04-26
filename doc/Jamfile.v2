@@ -79,12 +79,12 @@ boostbook standalone
         <format>pdf:<xsl:param>index.on.type=1
     ;
 
-install pdfinstall : standalone/<format>pdf : <location>. <install-type>PDF <name>math.pdf ;
-explicit pdfinstall ;
+install pdfinstall : standalone : <install-type>PDF <location>. <name>math.pdf ;
+#explicit pdfinstall ;
 
 #  Run inspect tool.
  run /boost/tools/inspect//inspect/<variant>release
-  : $(parent) -text -brief # Command line.
+ : $(parent) -text -brief # Command line.
   : # Input files
   : <dependency>/boost/filesystem//boost_filesystem
     <test-info>always_show_run_output # Requirements.
