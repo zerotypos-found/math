@@ -28,14 +28,14 @@
     and Distributions</a>
 </h2></div></div></div>
 <p>
-      There are a few concept archetypes available:
+      Two concept archetypes are available:
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           Real concept for floating-point types.
         </li>
 <li class="listitem">
-          distribution Concept for statistical distributions.
+          Distribution Concept for statistical distributions.
         </li>
 </ul></div>
 <h6>
@@ -45,7 +45,10 @@
     </h6>
 <p>
       <code class="computeroutput"><span class="identifier">std_real_concept</span></code> is an archetype
-      for theReal types, including the built-in float, double, long double.
+      for the Real types, including the built-in <code class="computeroutput"><span class="keyword">float</span><span class="special">,</span> <span class="keyword">double</span><span class="special">,</span>
+      <span class="keyword">long</span> <span class="keyword">double</span></code>,
+      and also <a href="http://www.boost.org/doc/libs/1_53_0_beta1/libs/multiprecision/doc/html/index.html" target="_top">Boost.Multiprecision</a>
+      and others.
     </p>
 <pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">concepts</span><span class="special">/</span><span class="identifier">std_real_concept</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span></pre>
 <pre class="programlisting"><span class="keyword">namespace</span> <span class="identifier">boost</span><span class="special">{</span>
@@ -72,12 +75,13 @@
       scope by mistake.
     </p>
 <p>
-      For example if the code calls ::pow rather than std::pow, the code will cleanly
-      compile, but truncation of long doubles to double will cause a significant
-      loss of precision. In contrast a template instantiated with std_real_concept
-      will <span class="bold"><strong>only</strong></span> compile if the all the standard
-      library functions used have been brought into the current scope with a using
-      declaration.
+      For example if the code calls <code class="computeroutput"><span class="special">::</span><span class="identifier">pow</span></code> rather than <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">pow</span></code>, the
+      code will cleanly compile, but truncation of <code class="computeroutput"><span class="keyword">long</span>
+      <span class="keyword">double</span></code>s to <code class="computeroutput"><span class="keyword">double</span></code>
+      will cause a significant loss of precision. In contrast a template instantiated
+      with std_real_concept will <span class="bold"><strong>only</strong></span> compile if
+      the all the standard library functions used have been brought into the current
+      scope with a using declaration.
     </p>
 <h3>
 <a name="math_toolkit.archetypes.h1"></a>
@@ -105,8 +109,8 @@
       be found if they are called unqualified allowing argument dependent lookup
       to locate them. In addition this type is useable at runtime: this allows code
       that would not otherwise be exercised by the built-in floating point types
-      to be tested. There is no std::numeric_limits&lt;&gt; support for this type,
-      since numeric_limits is not a conceptual requirement for <a class="link" href="concepts.html" title="Conceptual Requirements for Real Number Types">RealType</a>s.
+      to be tested. There is no <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">numeric_limits</span><span class="special">&lt;&gt;</span></code> support for this type, since numeric_limits
+      is not a conceptual requirement for <a class="link" href="concepts.html" title="Conceptual Requirements for Real Number Types">RealType</a>s.
     </p>
 <p>
       NTL RR is an example of a type meeting the requirements that this type models,
@@ -114,13 +118,58 @@
       With NTL - a High-Precision Floating-Point Library"</a>.
     </p>
 <p>
+      <a href="http://www.boost.org/doc/libs/1_53_0_beta1/libs/multiprecision/doc/html/index.html" target="_top">Boost.Multiprecision</a>
+      is recommended for all future work.
+    </p>
+<p>
       There is no specific test case for type <code class="computeroutput"><span class="identifier">real_concept</span></code>,
       instead, since this type is usable at runtime, each individual test case as
       well as testing <code class="computeroutput"><span class="keyword">float</span></code>, <code class="computeroutput"><span class="keyword">double</span></code> and <code class="computeroutput"><span class="keyword">long</span>
       <span class="keyword">double</span></code>, also tests <code class="computeroutput"><span class="identifier">real_concept</span></code>.
     </p>
-<h3>
+<h5>
 <a name="math_toolkit.archetypes.h2"></a>
+      <span class="phrase"><a name="math_toolkit.archetypes.rationale_for_real_concept"></a></span><a class="link" href="archetypes.html#math_toolkit.archetypes.rationale_for_real_concept">Rationale
+      for real_concept</a>
+    </h5>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+          There are some types where the precision can vary at runtime (a wrapper
+          around <a href="http://www.mpfr.org/" target="_top">GNU MPFR library</a> would
+          be one such type). Provided the default precision of such types doesn't
+          change during the course of a special function call, then there's no reason
+          we shouldn't support such types. However, since the precision (and possibly
+          other properties) are not compile-time constants, we can't give these types
+          a meaningful <code class="computeroutput"><span class="identifier">numeric_limits</span></code>
+          specialization.
+        </li>
+<li class="listitem">
+          There is an interesting side effect - there are a couple of platforms where
+          <code class="computeroutput"><span class="keyword">long</span> <span class="keyword">double</span></code>
+          is a "double double" a 106-bit mantissa type composed from two
+          <code class="computeroutput"><span class="keyword">double</span></code>s. The "interesting"
+          thing is that <code class="computeroutput"><span class="identifier">numeric_limits</span><span class="special">&lt;</span><span class="keyword">long</span> <span class="keyword">double</span><span class="special">&gt;::</span><span class="identifier">epsilon</span><span class="special">()</span></code>
+          returns the same value as <code class="computeroutput"><span class="identifier">numeric_limits</span><span class="special">&lt;</span><span class="keyword">long</span> <span class="keyword">double</span><span class="special">&gt;::</span><span class="identifier">min</span><span class="special">()</span></code>.
+          The reason for that is that the 106-bits do not have to be contiguous (they
+          come in two 53-bit blocks) so if you add <code class="computeroutput"><span class="number">1</span><span class="special">+</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">numeric_limits</span><span class="special">&lt;</span><span class="keyword">long</span> <span class="keyword">double</span><span class="special">&gt;::</span><span class="identifier">min</span><span class="special">()</span></code>
+          you really do get a value other than 1. But such an "insane"
+          definition of epsilon is completely useless for our purposes (series convergence
+          for example). Fortunately we can redefine our <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">tools</span><span class="special">::</span><span class="identifier">epsilon</span><span class="special">&lt;&gt;()</span></code> to return a sane value that does
+          what we expect.
+        </li>
+</ul></div>
+<p>
+      A final issue (which may not be such a good use case) is that users can provide
+      their own policy type which specifies a precision other than the default precision
+      of the type used in the calculation; for example, stats users may only need
+      say 8 or 10 digits precision even though they're using type <code class="computeroutput"><span class="keyword">double</span></code>.
+    </p>
+<p>
+      Finally, see some minimal docs on the internals on how to write a <a class="link" href="special_tut.html" title="Tutorial: How to Write a New Special Function">new
+      special function</a>.
+    </p>
+<h3>
+<a name="math_toolkit.archetypes.h3"></a>
       <span class="phrase"><a name="math_toolkit.archetypes.distribution_concept"></a></span><a class="link" href="archetypes.html#math_toolkit.archetypes.distribution_concept">Distribution
       Concept</a>
     </h3>
@@ -150,7 +199,7 @@
       class</a> for distribution types.
     </p>
 <h3>
-<a name="math_toolkit.archetypes.h3"></a>
+<a name="math_toolkit.archetypes.h4"></a>
       <span class="phrase"><a name="math_toolkit.archetypes.testing_the_distribution_concept"></a></span><a class="link" href="archetypes.html#math_toolkit.archetypes.testing_the_distribution_concept">Testing
       the distribution concept</a>
     </h3>

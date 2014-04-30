@@ -96,12 +96,12 @@ and very likely undesired, results.]
 
 [variablelist
 [[\/concepts\/]
-   [Prototype defining the *essential* features of a RealType
+   [Prototype defining the [*essential] features of a RealType
    class (see real_concept.hpp). Most applications will use `double`
    as the RealType (and short `typedef` names of distributions are
    reserved for this type where possible), a few will use `float` or
    `long double`, but it is also possible to use higher precision types
-   like __NTL_RR, __GMP, __MPFR
+   like __NTL_RR, __GMP, __MPFR, __multiprecision
 that conform to the requirements specified by real_concept.]]
 
 [[\/constants\/]

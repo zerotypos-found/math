@@ -123,8 +123,18 @@ At present support for GCC's native `__float128` datatype is extremely limited: 
 will all work with that type, and that's about it.  If you want to use the distributions or special
 functions then you will need to provide your own wrapper header that:
 
-* Provides std::numeric_limits<__float128> support.
+* Provides `std::numeric_limits<__float128>` support.
 * Provides overloads of the standard library math function for type `__float128`and which forward to the libquadmath equivalents.
+
+A version of `__float128` is now available by using __cstdfloat for GCC and Intel toolchains.
+It provides a workaround for a mistake in the `__float128` `exp` function.
+Some examples provided show using  `__float128` for both functions and distributions.
+
+[warning The tests of distributions all fail at April 2014
+because of lack of `<typeinfo>` support for `__float128` that is being fixed:
+see [@http://gcc.gnu.org/bugzilla/show_bug.cgi?id=43622].
+If the calls to `typeid` are removed, the tests pass, so the distributions can be used OK.
+]
 
 Ultimately these facilities should be provided by GCC and libstdc++.
 
@@ -499,15 +509,15 @@ object of a type convertible to `RealType`.
 
 [section:archetypes Conceptual Archetypes for Reals and Distributions]
 
-There are a few concept archetypes available:
+Two concept archetypes are available:
 
 * Real concept for floating-point types.
-* distribution Concept for statistical distributions.
+* Distribution Concept for statistical distributions.
 
 [h5 Real concept]
 
-`std_real_concept` is an archetype for theReal types,
-including the built-in float, double, long double.
+`std_real_concept` is an archetype for the Real types,
+including the built-in `float, double, long double`, and also __multiprecision and others.
 
 ``#include <boost/concepts/std_real_concept.hpp>``
 
@@ -533,9 +543,9 @@ to make them visible in the current scope.  Unfortunately it's all
 to easy to forget the `using` declaration, and call the double version of
 the function that happens to be in the global scope by mistake.
 
-For example if the code calls ::pow rather than std::pow,
-the code will cleanly compile, but truncation of long doubles to
-double will cause a significant loss of precision.
+For example if the code calls `::pow` rather than `std::pow`,
+the code will cleanly compile, but truncation of `long double`s to
+`double` will cause a significant loss of precision.
 In contrast a template instantiated with std_real_concept will *only*
 compile if the all the standard library functions used have
 been brought into the current scope with a using declaration.
@@ -564,7 +574,7 @@ namespace: these will only be found if they are called unqualified
 allowing argument dependent lookup to locate them.  In addition
 this type is useable at runtime:
 this allows code that would not otherwise be exercised by the built-in
-floating point types to be tested.  There is no std::numeric_limits<>
+floating point types to be tested.  There is no `std::numeric_limits<>`
 support for this type, since numeric_limits is not a conceptual requirement
 for [link math_toolkit.concepts RealType]s.
 
@@ -572,9 +582,40 @@ NTL RR is an example of a type meeting the requirements that this type
 models, but note that use of a thin wrapper class is required: refer to
 [link math_toolkit.high_precision.use_ntl "Using With NTL - a High-Precision Floating-Point Library"].
 
+__multiprecision is recommended for all future work.
+
 There is no specific test case for type `real_concept`, instead, since this
 type is usable at runtime, each individual test case as well as testing
 `float`, `double` and `long double`, also tests `real_concept`.
+
+[h4 Rationale for real_concept]
+
+* There are some types where the precision can vary at runtime
+(a wrapper around __MPFR would be one such type).
+Provided the default precision of such types doesn't change during the course of a special function call,
+then there's no reason we shouldn't support such types.
+However, since the precision (and possibly other properties) are not compile-time constants,
+we can't give these types a meaningful `numeric_limits` specialization.
+
+* There is an interesting side effect -
+there are a couple of platforms where `long double` is a "double double"
+a 106-bit mantissa type composed from two `double`s.
+The "interesting" thing is that `numeric_limits<long double>::epsilon()` returns the same value
+as `numeric_limits<long double>::min()`.
+The reason for that is that the 106-bits do not have to be contiguous
+(they come in two 53-bit blocks)
+so if you add `1+std::numeric_limits<long double>::min()` you really do get a value other than 1.
+But such an "insane" definition of epsilon is completely useless for our purposes
+(series convergence for example).
+Fortunately we can redefine our `boost::math::tools::epsilon<>()`
+to return a sane value that does what we expect.
+
+A final issue (which may not be such a good use case) is that users can provide their own policy type
+which specifies a precision other than the default precision of the type used in the calculation;
+for example, stats users may only need say 8 or 10 digits precision even though they're using type `double`.
+
+Finally, see some minimal docs on the internals on how to write a __new_function.
+[/http://www.boost.org/doc/libs/1_55_0/libs/math/doc/html/math_toolkit/special_tut/special_tut_impl.html]
 
 [h6 Distribution Concept]
 

@@ -35,13 +35,35 @@
       </p>
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
-            Provides std::numeric_limits&lt;__float128&gt; support.
+            Provides <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">numeric_limits</span><span class="special">&lt;</span><span class="identifier">__float128</span><span class="special">&gt;</span></code>
+            support.
           </li>
 <li class="listitem">
             Provides overloads of the standard library math function for type <code class="computeroutput"><span class="identifier">__float128</span></code>and which forward to the
             libquadmath equivalents.
           </li>
 </ul></div>
+<p>
+        A version of <code class="computeroutput"><span class="identifier">__float128</span></code> is
+        now available by using <a class="link" href="../overview.html" title="Overview">cstdfloat specified-width
+        typedefs</a> for GCC and Intel toolchains. It provides a workaround for
+        a mistake in the <code class="computeroutput"><span class="identifier">__float128</span></code>
+        <code class="computeroutput"><span class="identifier">exp</span></code> function. Some examples
+        provided show using <code class="computeroutput"><span class="identifier">__float128</span></code>
+        for both functions and distributions.
+      </p>
+<div class="warning"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Warning]" src="../../../../../../doc/src/images/warning.png"></td>
+<th align="left">Warning</th>
+</tr>
+<tr><td align="left" valign="top"><p>
+          The tests of distributions all fail at April 2014 because of lack of <code class="computeroutput"><span class="special">&lt;</span><span class="identifier">typeinfo</span><span class="special">&gt;</span></code> support for <code class="computeroutput"><span class="identifier">__float128</span></code>
+          that is being fixed: see <a href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=43622" target="_top">http://gcc.gnu.org/bugzilla/show_bug.cgi?id=43622</a>.
+          If the calls to <code class="computeroutput"><span class="keyword">typeid</span></code> are
+          removed, the tests pass, so the distributions can be used OK.
+        </p></td></tr>
+</table></div>
 <p>
         Ultimately these facilities should be provided by GCC and libstdc++.
       </p>
