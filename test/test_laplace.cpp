@@ -459,6 +459,9 @@ void test_bad_dist_parameters()
 
    BOOST_CHECK_THROW(boost::math::laplace_distribution<RealType> lbad1(0, 0), std::domain_error);
    BOOST_CHECK_THROW(boost::math::laplace_distribution<RealType> lbad2(0, -1), std::domain_error);
+
+   check_out_of_range<laplace_distribution<RealType> >(1);
+
 }
 
 template <class RealType>
@@ -562,6 +565,7 @@ BOOST_AUTO_TEST_CASE( extreme_function_arguments )
    test_extreme_function_arguments<float>();
    test_extreme_function_arguments<double>();
 }
+
 
 /*
 

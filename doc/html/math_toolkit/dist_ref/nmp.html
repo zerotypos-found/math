@@ -92,7 +92,7 @@
             <a class="link" href="nmp.html#math_toolkit.dist_ref.nmp.sd">standard deviation</a>.
           </li>
 <li class="listitem">
-            <a class="link" href="nmp.html#math_toolkit.dist_ref.nmp.support">support</a>.
+            <a href="http://en.wikipedia.org/wiki/Support_%28mathematics%29" target="_top">support</a>.
           </li>
 <li class="listitem">
             <a class="link" href="nmp.html#math_toolkit.dist_ref.nmp.variance">variance</a>.
@@ -383,16 +383,6 @@
       </p>
 <h5>
 <a name="math_toolkit.dist_ref.nmp.h10"></a>
-        <span class="phrase"><a name="math_toolkit.dist_ref.nmp.range"></a></span><a class="link" href="nmp.html#math_toolkit.dist_ref.nmp.range">Range</a>
-      </h5>
-<pre class="programlisting"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">class</span> <span class="identifier">RealType</span><span class="special">,</span> <span class="keyword">class</span> <a class="link" href="../../policy.html" title="Chapter&#160;14.&#160;Policies: Controlling Precision, Error Handling etc">Policy</a><span class="special">&gt;</span>
-<span class="identifier">std</span><span class="special">::</span><span class="identifier">pair</span><span class="special">&lt;</span><span class="identifier">RealType</span><span class="special">,</span> <span class="identifier">RealType</span><span class="special">&gt;</span> <span class="identifier">range</span><span class="special">(</span><span class="keyword">const</span> <span class="emphasis"><em>Distribution-Type</em></span><span class="special">&lt;</span><span class="identifier">RealType</span><span class="special">,</span> <a class="link" href="../../policy.html" title="Chapter&#160;14.&#160;Policies: Controlling Precision, Error Handling etc">Policy</a><span class="special">&gt;&amp;</span> <span class="identifier">dist</span><span class="special">);</span>
-</pre>
-<p>
-        Returns the valid range of the random variable over distribution <span class="emphasis"><em>dist</em></span>.
-      </p>
-<h5>
-<a name="math_toolkit.dist_ref.nmp.h11"></a>
         <span class="phrase"><a name="math_toolkit.dist_ref.nmp.quantile"></a></span><a class="link" href="nmp.html#math_toolkit.dist_ref.nmp.quantile">Quantile</a>
       </h5>
 <pre class="programlisting"><span class="keyword">template</span> <span class="special">&lt;</span><span class="keyword">class</span> <span class="identifier">RealType</span><span class="special">,</span> <span class="keyword">class</span> <a class="link" href="../../policy.html" title="Chapter&#160;14.&#160;Policies: Controlling Precision, Error Handling etc">Policy</a><span class="special">&gt;</span>
@@ -422,7 +412,7 @@
         <span class="inlinemediaobject"><img src="../../../graphs/quantile.png"></span>
       </p>
 <h5>
-<a name="math_toolkit.dist_ref.nmp.h12"></a>
+<a name="math_toolkit.dist_ref.nmp.h11"></a>
         <span class="phrase"><a name="math_toolkit.dist_ref.nmp.quantile_c"></a></span><a class="link" href="nmp.html#math_toolkit.dist_ref.nmp.quantile_c">Quantile
         from the complement of the probability.</a>
       </h5>
@@ -468,7 +458,7 @@
         <span class="inlinemediaobject"><img src="../../../graphs/survival_inv.png"></span>
       </p>
 <h5>
-<a name="math_toolkit.dist_ref.nmp.h13"></a>
+<a name="math_toolkit.dist_ref.nmp.h12"></a>
         <span class="phrase"><a name="math_toolkit.dist_ref.nmp.sd"></a></span><a class="link" href="nmp.html#math_toolkit.dist_ref.nmp.sd">Standard
         Deviation</a>
       </h5>
@@ -483,21 +473,244 @@
         if the distribution does not have a defined standard deviation.
       </p>
 <h5>
+<a name="math_toolkit.dist_ref.nmp.h13"></a>
+        <span class="phrase"><a name="math_toolkit.dist_ref.nmp.range"></a></span><a class="link" href="nmp.html#math_toolkit.dist_ref.nmp.range">Range</a>
+      </h5>
+<pre class="programlisting"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">class</span> <span class="identifier">RealType</span><span class="special">,</span> <span class="keyword">class</span> <a class="link" href="../../policy.html" title="Chapter&#160;14.&#160;Policies: Controlling Precision, Error Handling etc">Policy</a><span class="special">&gt;</span>
+<span class="identifier">std</span><span class="special">::</span><span class="identifier">pair</span><span class="special">&lt;</span><span class="identifier">RealType</span><span class="special">,</span> <span class="identifier">RealType</span><span class="special">&gt;</span> <span class="identifier">range</span><span class="special">(</span><span class="keyword">const</span> <span class="emphasis"><em>Distribution-Type</em></span><span class="special">&lt;</span><span class="identifier">RealType</span><span class="special">,</span> <a class="link" href="../../policy.html" title="Chapter&#160;14.&#160;Policies: Controlling Precision, Error Handling etc">Policy</a><span class="special">&gt;&amp;</span> <span class="identifier">dist</span><span class="special">);</span>
+</pre>
+<p>
+        Returns the valid range of the random variable over distribution <span class="emphasis"><em>dist</em></span>.
+      </p>
+<p>
+        <code class="computeroutput"><span class="identifier">range</span><span class="special">.</span><span class="identifier">first</span></code> returns the lower limit; <code class="computeroutput"><span class="identifier">range</span><span class="special">.</span><span class="identifier">second</span></code> returns the upper limit.
+      </p>
+<p>
+        Values within the range (including endpoints) should not cause an exception
+        to be thrown (or error number to be set).
+      </p>
+<p>
+        Range is often, but not always, the same as <a href="http://en.wikipedia.org/wiki/Support_%28mathematics%29" target="_top">support</a>.
+      </p>
+<h5>
 <a name="math_toolkit.dist_ref.nmp.h14"></a>
-        <span class="phrase"><a name="math_toolkit.dist_ref.nmp.support"></a></span><a class="link" href="nmp.html#math_toolkit.dist_ref.nmp.support">support</a>
+        <span class="phrase"><a name="math_toolkit.dist_ref.nmp.support"></a></span><a class="link" href="nmp.html#math_toolkit.dist_ref.nmp.support">Support</a>
       </h5>
 <pre class="programlisting"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">class</span> <span class="identifier">RealType</span><span class="special">,</span> <span class="keyword">class</span> <a class="link" href="../../policy.html" title="Chapter&#160;14.&#160;Policies: Controlling Precision, Error Handling etc">Policy</a><span class="special">&gt;</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">pair</span><span class="special">&lt;</span><span class="identifier">RealType</span><span class="special">,</span> <span class="identifier">RealType</span><span class="special">&gt;</span> <span class="identifier">support</span><span class="special">(</span><span class="keyword">const</span> <span class="emphasis"><em>Distribution-Type</em></span><span class="special">&lt;</span><span class="identifier">RealType</span><span class="special">,</span> <a class="link" href="../../policy.html" title="Chapter&#160;14.&#160;Policies: Controlling Precision, Error Handling etc">Policy</a><span class="special">&gt;&amp;</span> <span class="identifier">dist</span><span class="special">);</span>
 </pre>
 <p>
-        Returns the supported range of random variable over the distribution <span class="emphasis"><em>dist</em></span>.
+        Returns the limits of a random variable that are supported over the distribution
+        <span class="emphasis"><em>dist</em></span>.
       </p>
 <p>
-        The distribution is said to be 'supported' over a range that is <a href="http://en.wikipedia.org/wiki/Probability_distribution" target="_top">"the
+        <code class="computeroutput"><span class="identifier">range</span><span class="special">.</span><span class="identifier">first</span></code> returns the lower limit; <code class="computeroutput"><span class="identifier">range</span><span class="special">.</span><span class="identifier">second</span></code> returns the upper limit.
+      </p>
+<p>
+        The distribution is said to have <a href="http://en.wikipedia.org/wiki/Support_%28mathematics%29" target="_top">support</a>
+        over an <a href="http://en.wikipedia.org/wiki/Interval_(mathematics)" target="_top">interval</a>
+        that is <a href="http://en.wikipedia.org/wiki/Probability_distribution" target="_top">"the
         smallest closed set whose complement has probability zero"</a>.
-        Non-mathematicians might say it means the 'interesting' smallest range of
-        random variate x that has the cdf going from zero to unity. Outside are uninteresting
-        zones where the pdf is zero, and the cdf zero or unity.
+        Non-mathematicians might say it means the 'interesting' smallest interval
+        of random variate x that has the cdf rising from zero to unity. Outside this
+        range are 'uninteresting' zones where the pdf is zero, and the cdf is zero
+        or remains at unity.
+      </p>
+<p>
+        The supported interval is used as a method of classifying distributions,
+        for example, see <a href="http://en.wikipedia.org/wiki/List_of_probability_distributions" target="_top">probability_distributions</a>,
+        and these few examples:
+      </p>
+<div class="table">
+<a name="math_toolkit.dist_ref.nmp.support_egs"></a><p class="title"><b>Table&#160;5.1.&#160;Types of Support</b></p>
+<div class="table-contents"><table class="table" summary="Types of Support">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th>
+                <p>
+                  Type
+                </p>
+              </th>
+<th>
+                <p>
+                  Support
+                </p>
+              </th>
+<th>
+                <p>
+                  Symbolic
+                </p>
+              </th>
+<th>
+                <p>
+                  Examples
+                </p>
+              </th>
+<th>
+              </th>
+</tr></thead>
+<tbody>
+<tr>
+<td>
+                <p>
+                  discrete
+                </p>
+              </td>
+<td>
+                <p>
+                  finite
+                </p>
+              </td>
+<td>
+                <p>
+                  k &#8712; {0, 1}
+                </p>
+              </td>
+<td>
+                <p>
+                  Bernoulli
+                </p>
+              </td>
+<td>
+                <p>
+                  binomial
+                </p>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  discrete
+                </p>
+              </td>
+<td>
+                <p>
+                  infinite
+                </p>
+              </td>
+<td>
+                <p>
+                  k &#8712; {0, 1, 2, 3, ...}
+                </p>
+              </td>
+<td>
+                <p>
+                  Poisson
+                </p>
+              </td>
+<td>
+                <p>
+                  geometric
+                </p>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  continuous
+                </p>
+              </td>
+<td>
+                <p>
+                  bounded
+                </p>
+              </td>
+<td>
+                <p>
+                  (0,1) or (a,b)
+                </p>
+              </td>
+<td>
+                <p>
+                  beta
+                </p>
+              </td>
+<td>
+                <p>
+                  triangular
+                </p>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  continuous
+                </p>
+              </td>
+<td>
+                <p>
+                  semi-infinite
+                </p>
+              </td>
+<td>
+                <p>
+                  [0, +&#8734;]
+                </p>
+              </td>
+<td>
+                <p>
+                  chi-squared
+                </p>
+              </td>
+<td>
+                <p>
+                  Fisher
+                </p>
+              </td>
+</tr>
+<tr>
+<td>
+                <p>
+                  continuous
+                </p>
+              </td>
+<td>
+                <p>
+                  +&amp;- infinite
+                </p>
+              </td>
+<td>
+                <p>
+                  [-&#8734;, +&#8734;]
+                </p>
+              </td>
+<td>
+                <p>
+                  normal
+                </p>
+              </td>
+<td>
+                <p>
+                  Laplace
+                </p>
+              </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break"><p>
+        Although a strict mathematical definition of support may be an <span class="emphasis"><em>open</em></span>
+        interval like (a, b), we have sometimes included the end points, preferring
+        to implement a closed interval [a, b] where we felt this was natural, intuitive
+        and/or useful. So for <a href="http://en.wikipedia.org/wiki/Interval_%28mathematics%29" target="_top">infinite
+        endpoints</a> support, when <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">numeric_limits</span><span class="special">::</span><span class="identifier">has_infinity</span><span class="special">==</span><span class="keyword">true</span></code> and
+        so <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">numeric_limits</span><span class="special">::</span><span class="identifier">infinity</span><span class="special">()</span></code>
+        is meaningful, infinity really <span class="bold"><strong>does exist</strong></span>
+        (it is a floating-point bit pattern(s)), and so the support of the <a href="http://en.wikipedia.org/wiki/Extended_real_number_line" target="_top">extended real
+        number line</a> is definitely [-&#8734;, +&#8734;].
+      </p>
+<p>
+        For floating-point types, usually user-defined, where <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">numeric_limits</span><span class="special">&lt;&gt;::</span><span class="identifier">has_infinity</span><span class="special">==</span><span class="keyword">false</span></code> (probably
+        <a href="http://en.wikipedia.org/wiki/Arbitrary_precision" target="_top">arbitrary-precision</a>)
+        the best we can do is some maximum value provided by <code class="computeroutput"><span class="keyword">using</span>
+        <span class="identifier">boost</span><span class="special">::</span><span class="identifier">math</span><span class="special">::</span><span class="identifier">tools</span><span class="special">::</span><span class="identifier">max_value</span></code>; when real number line support
+        is [<code class="computeroutput"><span class="special">-</span><span class="identifier">max_value</span><span class="special">&lt;</span><span class="identifier">RealType</span><span class="special">&gt;(),</span> <span class="identifier">max_value</span><span class="special">&lt;</span><span class="identifier">RealType</span><span class="special">&gt;()</span></code>] .
       </p>
 <h5>
 <a name="math_toolkit.dist_ref.nmp.h15"></a>
@@ -510,7 +723,7 @@
         Returns the variance of the distribution <span class="emphasis"><em>dist</em></span>.
       </p>
 <p>
-        This function may return a <a class="link" href="../error_handling.html#math_toolkit.error_handling.domain_error">domain_error</a>
+        This function may signal a <a class="link" href="../error_handling.html#math_toolkit.error_handling.domain_error">domain_error</a>
         if the distribution does not have a defined variance.
       </p>
 <h5>
@@ -539,7 +752,7 @@
         <span class="emphasis"><em>dist</em></span>.
       </p>
 <p>
-        kertosis = &#946;<sub>2</sub> &#160;= &#956;<sub>4</sub> &#160; / &#956;<sub>2</sub><sup>2</sup>
+        &#160;  &#160; kurtosis = &#946;<sub>2</sub> &#160;= &#956;<sub>4</sub> &#160; / &#956;<sub>2</sub><sup>2</sup>
       </p>
 <p>
         Where &#956;<sub>i</sub> &#160; is the i'th central moment of the distribution, and in particular
@@ -563,7 +776,7 @@
         of a normal distribution is zero.
       </p>
 <p>
-        This function may return a <a class="link" href="../error_handling.html#math_toolkit.error_handling.domain_error">domain_error</a>
+        This function may signal a <a class="link" href="../error_handling.html#math_toolkit.error_handling.domain_error">domain_error</a>
         if the distribution does not have a defined kurtosis.
       </p>
 <p>
@@ -593,7 +806,7 @@
         so that the kurtosis excess of a normal distribution is zero.
       </p>
 <p>
-        This function may return a <a class="link" href="../error_handling.html#math_toolkit.error_handling.domain_error">domain_error</a>
+        This function may signal a <a class="link" href="../error_handling.html#math_toolkit.error_handling.domain_error">domain_error</a>
         if the distribution does not have a defined kurtosis excess.
       </p>
 <p>

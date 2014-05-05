@@ -1,6 +1,6 @@
 # Boost.Math Indexing terms file.
 # Copyright John Maddock 2009 - 2012
-# Copyright Paul A. Bristow 2009 - 2012
+# Copyright Paul A. Bristow 2009 - 2014
 
 "Lanczos approximation" lanczos
 
@@ -11,6 +11,19 @@ expression \<express\w*\>
 constants  \<constant\w*\>
 
 real_concept \<real_concept\w*\>
+
+numeric_limits \<numeric_\w*\>
+
+limits \<w*\limits\w*\>
+
+Raspberry_Pi  \<raspberry\w*\>
+
+Arduino \<arduino\w*\>
+
+Android \<android\w*\>
+ARM \<arm\w*\>
+
+Darwin \<darwin\w*\>
 
 !scan-path boost/math .*\.hpp true
 

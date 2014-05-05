@@ -200,36 +200,49 @@ Mathematica Basic Statistics] gives more detail, in particular for discrete dist
 [section:infinity Handling of Floating-Point Infinity]
 
 Some functions and distributions are well defined with + or - infinity as
-argument(s), but after some experiments with handling infinite arguments
-as special cases, we concluded that it was generally more useful to forbid this,
-and instead to return the result of __domain_error.
+argument(s).
+This is ['[@http://en.wikipedia.org/wiki/Support_%28mathematics%29 supported over the extended real line]]
+in mathematical terminology and symbolically as  \[-[infin], +[infin]\].
+
+After some experiments with handling infinite arguments
+as special cases, we initally concluded that it was simpler and generally more useful to forbid this,
+and instead to signal __domain_error.
+
+But after Boost release 1.56 we have concluded that it is more useful to
+deal explicitly with infinity, despite the additional complexity.
+[warning In unusual cases this might be a breaking change.]
 
 Handling infinity as special cases is additionally complicated
 because, unlike built-in types on most - but not all - platforms,
 not all User-Defined Types are
 specialized to provide `std::numeric_limits<RealType>::infinity()`
 and would return zero rather than any representation of infinity.
+Any UDT that provides __arbitrary_precision arithmetic (where
+digits of precision are limited only by the available memory of the host system)
+cannot sensibly provide a representation of infinity.
 
-The rationale is that non-finiteness may happen because of error
+Our rationale was that non-finiteness may happen because of error
 or overflow in the users code, and it will be more helpful for this
 to be diagnosed promptly rather than just continuing.
 The code also became much more complicated, more error-prone,
 much more work to test, and much less readable.
 
 However in a few cases, for example normal, where we felt it obvious,
-we have permitted argument(s) to be infinity,
+we permitted argument(s) to be infinity,
 provided infinity is implemented for the `RealType` on that implementation,
 and it is supported and tested by the distribution.
 
+Allowing infinity proved to meet users expectations and is now being extended to all distributions.
+
+See __range and __support for the changed specifications.
+
 The range for these distributions is set to infinity if supported by the platform,
 (by testing `std::numeric_limits<RealType>::has_infinity`)
-else the maximum value provided for the `RealType` by Boost.Math.
+else the maximum value `boost::math::tools::max_value<RealType>()`
+provided for the `RealType` by Boost.Math.
 
-Testing for has_infinity is obviously important for arbitrary precision types
+Testing for `has_infinity` is obviously important for arbitrary precision types
 where infinity makes much less sense than for IEEE754 floating-point.
-
-So far we have not set `support()` function (only range)
-on the grounds that the PDF is uninteresting/zero for infinities.
 
 Users who require special handling of infinity (or other specific value) can,
 of course, always intercept this before calling a distribution or function

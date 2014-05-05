@@ -234,9 +234,13 @@ There are very many (probably essential) options for generating ARM code: see
 Some can run a Linux family OS
 and may even be able to compile C++, build and execute on their own.
 
-The cheap low power single-board computers (__Raspberry_pi, __Arduino...) tend to be fairly slow,
-(taking a week to run the full Boost test suite!)
+The low-cost low-power single-board computers (__Raspberry_pi, __Arduino...) tend to be fairly slow,
+(__Raspberry_pi taking a week to run the full Boost all-libraries test suite!)
 but are still capable of running Boost.Math special functions and distributions (if not all Boost libraries).
+
+8-bit __Arduino has executed some special functions, built elsewhere,
+(with special support for memory allocation and some C++ Standard Library items)
+but about a thousand-fold slower than common 32-bit processors, including 32-bit Arduino Duo.
 
 [table Increasingly Supported Compilers and Platforms
 [[Platform][Compiler]]

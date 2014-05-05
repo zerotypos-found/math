@@ -72,11 +72,12 @@ private:
 }; // class laplace_distribution
 
 //
-// Convenient type synonym for double.
+// Convenient typedef synonym for double version.
 typedef laplace_distribution<double> laplace;
 
 //
 // Non-member functions.
+
 template <class RealType, class Policy>
 inline const std::pair<RealType, RealType> range(const laplace_distribution<RealType, Policy>&)
 {

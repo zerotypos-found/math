@@ -2,23 +2,24 @@
 
 [@http://en.wikipedia.org/wiki/Random_variate Random variates]
 and [@http://en.wikipedia.org/wiki/Parameter distribution parameters]
-are conventionally distinguished (for example in Wikipedia and Wolfram MathWorld
+are conventionally distinguished (for example in Wikipedia and Wolfram MathWorld)
 by placing a semi-colon after the __random_variate (whose value you 'choose'),
 to separate the variate from the parameter(s) that defines the shape of the distribution.
 
 For example, the binomial distribution has two parameters:
-n (the number of trials) and p (the probability of success on one trial).  
-It also has the __random_variate /k/: the number of successes observed.
-This means the probability density\/mass function (pdf) is written as ['f(k; n, p)].
+['n] (the number of trials) and ['p] (the probability of success on one trial).
+It also has the __random_variate ['k]/: the number of successes observed.
+This means the probability density\/probability mass function (pdf or pmf)
+is written as ['f(k; n, p)].
 
-Translating this into code the `binomial_distribution` constructor 
+Translating this into code the `binomial_distribution` constructor
 therefore has two parameters:
 
 	binomial_distribution(RealType n, RealType p);
 
 While the function `pdf` has one argument specifying the distribution type
 (which includes its parameters, if any),
-and a second argument for the __random_variate.  So taking our binomial distribution 
+and a second argument for the __random_variate.  So taking our binomial distribution
 example, we would write:
 
 	pdf(binomial_distribution<RealType>(n, p), k);
@@ -27,7 +28,7 @@ example, we would write:
 
 [section:dist_params Discrete Probability Distributions]
 
-Note that the [@http://en.wikipedia.org/wiki/Discrete_probability_distribution 
+Note that the [@http://en.wikipedia.org/wiki/Discrete_probability_distribution
 discrete distributions], including the binomial, negative binomial, Poisson & Bernoulli,
 are all mathematically defined as discrete functions:
 only integral values of the __random_variate are envisaged
@@ -47,11 +48,11 @@ In this case however, that there are a small number of situations where non-inte
 degrees of freedom do have a genuine meaning.
 
 Generally speaking there is no loss of performance from allowing real-values
-parameters: the underlying special functions contain optimizations for 
+parameters: the underlying special functions contain optimizations for
 integer-valued arguments when applicable.
 
 [caution
-The quantile function of a discrete distribution will by 
+The quantile function of a discrete distribution will by
 default return an integer result that has been
 /rounded outwards/.  That is to say lower quantiles (where the probability is
 less than 0.5) are rounded downward, and upper quantiles (where the probability
@@ -61,20 +62,20 @@ coverage will be present in the central region, and /no more than/
 the requested coverage will be present in the tails.
 
 This behaviour can be changed so that the quantile functions are rounded
-differently, or even return a real-valued result using 
+differently, or even return a real-valued result using
 [link math_toolkit.pol_overview Policies].  It is strongly
-recommended that you read the tutorial 
+recommended that you read the tutorial
 [link math_toolkit.pol_tutorial.understand_dis_quant
 Understanding Quantiles of Discrete Distributions] before
 using the quantile function on a discrete distribution.  The
-[link math_toolkit.pol_ref.discrete_quant_ref reference docs] 
+[link math_toolkit.pol_ref.discrete_quant_ref reference docs]
 describe how to change the rounding policy
 for these distributions.
 ]
 
 [endsect]
 
-[/ 
+[/
   Copyright 2006 John Maddock and Paul A. Bristow.
   Distributed under the Boost Software License, Version 1.0.
   (See accompanying file LICENSE_1_0.txt or copy at

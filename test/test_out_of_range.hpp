@@ -1,4 +1,5 @@
 // Copyright John Maddock 2012.
+// Copyright Paul A. Bristow 2014
 
 // Use, modification and distribution are subject to the
 // Boost Software License, Version 1.0.
@@ -11,23 +12,26 @@
 #include <boost/math/special_functions/next.hpp>
 #include <boost/test/test_tools.hpp>
 
-/*` check_out_of_range functions check that bad parameters
+/*` check_out_of_range function checks that bad parameters
 passed to constructors and functions throw domain_error exceptions.
 
 Usage is `check_out_of_range<DistributionType >(list-of-params);`
 Where list-of-params is a list of *valid* parameters from which the distribution can be constructed
 - ie the same number of args are passed to the function,
 as are passed to the distribution constructor.
+These parameters just 'choose' the right  version of template function check_support.
 
 Checks:
 
-* Infinity or NaN passed in place of each of the valid params.
+* Infinity or NaN passed in place of each of the valid distribution constructor parameters.
+* 
 * Infinity or NaN as a random variable.
 * Out-of-range random variable passed to pdf and cdf (ie outside of "range(distro)").
 * Out-of-range probability passed to quantile function and complement.
 
 but does *not* check finite but out-of-range parameters to the constructor
 because these are specific to each distribution.
+
 */
 
 #ifdef BOOST_MSVC
@@ -58,7 +62,7 @@ void check_support(const Distro& d)
       BOOST_CHECK_THROW(cdf(complement(d, m)), std::domain_error);
    }
    if(std::numeric_limits<value_type>::has_infinity)
-   { // Infinity is available,
+   { // Infinity is available for value_type,
       if((boost::math::isfinite)(range(d).second))
       {  // and top of range doesn't include infinity,
          // check that using infinity throws domain errors.
@@ -100,6 +104,9 @@ void check_support(const Distro& d)
 }
 
 // Four check_out_of_range versions for distributions with zero to 3 constructor parameters.
+// For example, students_t_distribution has one construction parameter, so
+// check_out_of_range<students_t_distribution<RealType> >(1);
+// This checks the
 
 template <class Distro>
 void check_out_of_range()
@@ -115,13 +122,20 @@ void check_out_of_range(typename Distro::value_type p1)
    Distro d(p1);
    check_support(d);
    if(std::numeric_limits<value_type>::has_infinity)
-   {
-      BOOST_CHECK_THROW(pdf(Distro(std::numeric_limits<value_type>::infinity()), range(d).first), std::domain_error);
- //     BOOST_CHECK_THROW(pdf(Distro(std::numeric_limits<value_type>::infinity()), range(d).second), std::domain_error);
+   { // range (or support???) can be tested for being less than infinity, when infinity should throw. 
+     if (!boost::math::isinf(range(d).first))
+     {
+       BOOST_CHECK_THROW(pdf(Distro(std::numeric_limits<value_type>::infinity()), range(d).first), std::domain_error); // Upper limit of range.
+     }
+     if (!boost::math::isinf(range(d).second))
+     {
+       BOOST_CHECK_THROW(pdf(Distro(std::numeric_limits<value_type>::infinity()), range(d).second), std::domain_error); // Lower limit of range.
+     }
    }
    if(std::numeric_limits<value_type>::has_quiet_NaN)
-   {
+   { // Should always throw for NaN.
       BOOST_CHECK_THROW(pdf(Distro(std::numeric_limits<value_type>::quiet_NaN()), range(d).first), std::domain_error);
+      BOOST_CHECK_THROW(pdf(Distro(std::numeric_limits<value_type>::quiet_NaN()), range(d).second), std::domain_error);
    }
 }
 

@@ -607,7 +607,6 @@ void test_spots(RealType)
 
    }
 
-
     // Use a new distribution ignore_error_students_t with a custom policy to ignore all errors,
     // and check returned values are as expected.
 
@@ -653,8 +652,6 @@ void test_spots(RealType)
               > my_ignore_policy;
 
   typedef students_t_distribution<RealType, my_ignore_policy> ignore_error_students_t;
-
-
 
   // Only test NaN and infinity if type has these features (realconcept returns zero).
   // Integers are always converted to RealType,
@@ -712,7 +709,7 @@ void test_spots(RealType)
   BOOST_CHECK(boost::math::isfinite(kurtosis(ignore_error_students_t(4 + 4 * std::numeric_limits<RealType>::epsilon()))));
   BOOST_CHECK(boost::math::isfinite(kurtosis(ignore_error_students_t(static_cast<RealType>(4.0001L)))));
 
-  // check_out_of_range<students_t_distribution<RealType> >(1);
+  check_out_of_range<students_t_distribution<RealType> >(1);
   // Cannot be used because fails "exception std::domain_error is expected" 
   // because df = +infinity is allowed.
 
@@ -724,9 +721,9 @@ BOOST_AUTO_TEST_CASE( test_main )
 {
   // Check that can construct students_t distribution using the two convenience methods:
   using namespace boost::math;
-  students_t myst1(2); // Using typedef
+  students_t myst1(2); // Using double typedef.
   students_t_distribution<> myst2(2); // Using default RealType double.
-   //students_t_distribution<double> myst3(2); // Using explicit RealType double.
+  students_t_distribution<double> myst3(2); // Using explicit RealType double.
 
    // Basic sanity-check spot values.
    // (Parameter value, arbitrarily zero, only communicates the floating point type).
