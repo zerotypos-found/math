@@ -216,6 +216,11 @@
 [template laquo[]'''&#xAB;'''] [/ left-pointing double angle quotation mark = left pointing guillemet ]
 [template raquo[]'''&#xBB;'''] [/ right-pointing double angle quotation mark = right pointing guillemet  ]
 
+[template upperleftcurly[]'''&#x23a7;'''] [/  LEFT CURLY BRACKET UPPER HOOK ]
+[template middleleftcurly[]'''&#x23a8;'''] [/  LEFT CURLY BRACKET MIDDLE HOOK ]
+[template lowerleftcurly[]'''&#x23a9;'''] [/  LEFT CURLY BRACKET LOWER HOOK ]
+
+
 [/
 Copyright 2007, 2010, 2012 Paul A. Bristow.
 Distributed under the Boost Software License, Version 1.0.

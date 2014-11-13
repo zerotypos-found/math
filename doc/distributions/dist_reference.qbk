@@ -4,11 +4,11 @@
 
 [section:dists Distributions]
 
-[include bernoulli.qbk]
 [include beta.qbk]
 [include binomial.qbk]
 [include cauchy.qbk]
 [include chi_squared.qbk]
+[include degenerate.qbk]
 [include exponential.qbk]
 [include extreme_value.qbk]
 [include fisher.qbk]
