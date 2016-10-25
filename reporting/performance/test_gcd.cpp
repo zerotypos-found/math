@@ -172,7 +172,7 @@ T binary_textbook(T u, T v)
 //
 // The Mixed Binary Euclid Algorithm
 // Sidi Mohamed Sedjelmaci
-// Electronic Notes in Discrete Mathematics 35 (2009) 169–176
+// Electronic Notes in Discrete Mathematics 35 (2009) 169-176
 //
 template <class T>
 T mixed_binary_gcd(T u, T v)
